@@ -1,0 +1,9 @@
+{
+  "user": "Kumneger",
+  "meals": ["Avocado toast", "Chicken salad", "Pasta dinner"],
+  "exercises": ["Morning jog - 30 mins", "Pushups - 3 sets"],
+  "lifestyle": {
+    "sleep_hours": 6,
+    "screen_time": 5
+  }
+}

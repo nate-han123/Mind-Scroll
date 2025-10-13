@@ -1,0 +1,41 @@
+export interface FoodAgentOutput {
+  calories: number;
+  nutrition_score: number;
+  comment: string;
+}
+
+export interface ExerciseAgentOutput {
+  calories_burned: number;
+  note: string;
+}
+
+export interface LifestyleAgentOutput {
+  wellness_score: number;
+  advice: string;
+}
+
+export interface OrchestratorSummary {
+  overall_health_score: number;
+  summary: string;
+  recommendations: string[];
+}
+
+export interface DailySummary {
+  food_agent: FoodAgentOutput;
+  exercise_agent: ExerciseAgentOutput;
+  lifestyle_agent: LifestyleAgentOutput;
+  orchestrator_summary: OrchestratorSummary;
+}
+
+export async function fetchSummary(): Promise<DailySummary> {
+  try {
+    const res = await fetch("http://localhost:8000/generate-summary");
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching summary:', error);
+    throw error;
+  }
+}
