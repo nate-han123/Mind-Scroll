@@ -19,12 +19,24 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
   color = 'primary',
   className = ''
 }) => {
+  // Determine color based on score if provided
+  let actualColor = color;
+  if (score !== undefined) {
+    if (score >= 8) {
+      actualColor = 'success';
+    } else if (score >= 6) {
+      actualColor = 'warning';
+    } else {
+      actualColor = 'info'; // Use info for low scores (red-ish)
+    }
+  }
+
   const colorClasses = {
     primary: 'border-primary-200 bg-primary-50',
     secondary: 'border-secondary-200 bg-secondary-50',
     success: 'border-green-200 bg-green-50',
     warning: 'border-yellow-200 bg-yellow-50',
-    info: 'border-blue-200 bg-blue-50'
+    info: 'border-red-200 bg-red-50'
   };
 
   const textColorClasses = {
@@ -32,24 +44,28 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
     secondary: 'text-secondary-700',
     success: 'text-green-700',
     warning: 'text-yellow-700',
-    info: 'text-blue-700'
+    info: 'text-red-700'
   };
 
   return (
-    <div className={`card card-hover ${colorClasses[color]} ${className} animate-fade-in`}>
+    <div className={`card card-hover ${colorClasses[actualColor]} ${className} animate-fade-in`}>
       <div className="flex items-start justify-between mb-4">
-        <h3 className={`text-lg font-semibold ${textColorClasses[color]}`}>
+        <h3 className={`text-lg font-semibold ${textColorClasses[actualColor]}`}>
           {title}
         </h3>
         {score !== undefined && (
-          <div className={`px-3 py-1 rounded-full text-sm font-medium ${textColorClasses[color]} bg-white/50`}>
+          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+            actualColor === 'success' ? 'bg-green-100 text-green-800' :
+            actualColor === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-red-100 text-red-800'
+          }`}>
             {score}/10
           </div>
         )}
       </div>
       
       <div className="mb-3">
-        <div className={`text-3xl font-bold ${textColorClasses[color]} mb-1`}>
+        <div className={`text-3xl font-bold ${textColorClasses[actualColor]} mb-1`}>
           {value}
         </div>
         {subtitle && (

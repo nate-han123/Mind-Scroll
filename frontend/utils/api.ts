@@ -39,3 +39,27 @@ export async function fetchSummary(): Promise<DailySummary> {
     throw error;
   }
 }
+
+export async function fetchSummaryFromUserData(userData: {
+  meals: string[];
+  exercises: string[];
+  lifestyle: any;
+}): Promise<DailySummary> {
+  try {
+    const res = await fetch("http://localhost:8000/generate-summary-from-user-data", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching summary from user data:', error);
+    throw error;
+  }
+}

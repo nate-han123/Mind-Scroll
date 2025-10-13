@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import SummaryCard from '../components/SummaryCard';
 import AgentOutput from '../components/AgentOutput';
-import { fetchSummary, DailySummary } from '../utils/api';
+import { fetchSummaryFromUserData, DailySummary } from '../utils/api';
 
 const Dashboard: React.FC = () => {
   const router = useRouter();
@@ -15,7 +15,19 @@ const Dashboard: React.FC = () => {
     const loadSummary = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchSummary();
+        
+        // Get user data from localStorage
+        const foodData = JSON.parse(localStorage.getItem('userFoodData') || '[]');
+        const exerciseData = JSON.parse(localStorage.getItem('userExerciseData') || '[]');
+        const lifestyleData = JSON.parse(localStorage.getItem('userLifestyleData') || '{}');
+        
+        const userData = {
+          meals: foodData,
+          exercises: exerciseData,
+          lifestyle: lifestyleData
+        };
+        
+        const data = await fetchSummaryFromUserData(userData);
         setSummary(data);
       } catch (err) {
         setError('Failed to load summary. Please try again.');

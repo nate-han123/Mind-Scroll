@@ -1,44 +1,75 @@
 from schemas.summary import FoodAgentOutput
+from langchain_openai import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema import HumanMessage
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class FoodAgent:
     def __init__(self):
         self.name = "Food Agent"
+        self.llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0.3,
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
     
     def analyze_meals(self, meals: list) -> FoodAgentOutput:
         """
-        Analyze meals and return nutritional insights
+        Analyze meals using AI and return nutritional insights
         """
-        # Simple calorie estimation based on meal types
-        calorie_map = {
-            "avocado toast": 350,
-            "chicken salad": 400,
-            "pasta dinner": 600,
-            "breakfast": 300,
-            "lunch": 500,
-            "dinner": 600
-        }
+        if not meals:
+            return FoodAgentOutput(
+                calories=0,
+                nutrition_score=0.0,
+                comment="No meals recorded today. Consider adding nutritious meals to your day."
+            )
         
-        total_calories = 0
-        for meal in meals:
-            meal_lower = meal.lower()
-            for key, calories in calorie_map.items():
-                if key in meal_lower:
-                    total_calories += calories
-                    break
-            else:
-                # Default calorie estimate
-                total_calories += 400
+        # Create prompt for AI analysis
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", """You are a nutrition expert AI. Analyze the provided meals and return a JSON response with:
+            - calories: estimated total calories (integer)
+            - nutrition_score: score from 0-10 based on nutritional quality (float)
+            - comment: brief nutritional advice (string)
+            
+            Consider factors like:
+            - Calorie density
+            - Nutritional balance (proteins, carbs, fats, vitamins)
+            - Meal variety
+            - Healthiness of ingredients
+            
+            Return ONLY valid JSON in this format:
+            {{"calories": number, "nutrition_score": number, "comment": "string"}}"""),
+            ("human", f"Analyze these meals: {', '.join(meals)}")
+        ])
         
-        # Calculate nutrition score (0-10)
-        nutrition_score = min(10.0, total_calories / 200)  # Rough scoring
+        try:
+            chain = prompt | self.llm
+            response = chain.invoke({})
+            
+            # Parse AI response
+            import json
+            result = json.loads(response.content)
+            
+            return FoodAgentOutput(
+                calories=result.get("calories", 0),
+                nutrition_score=result.get("nutrition_score", 0.0),
+                comment=result.get("comment", "Unable to analyze meals.")
+            )
+            
+        except Exception as e:
+            print(f"Error in food agent: {e}")
+            # Fallback to simple analysis
+            return self._fallback_analysis(meals)
+    
+    def _fallback_analysis(self, meals: list) -> FoodAgentOutput:
+        """Fallback analysis if AI fails"""
+        total_calories = len(meals) * 400  # Simple estimate
+        nutrition_score = min(10.0, len(meals) * 2.5)  # Basic scoring
         
-        # Generate comment based on analysis
-        if total_calories < 1200:
-            comment = "Consider adding more nutritious meals to meet daily requirements."
-        elif total_calories > 2500:
-            comment = "Good energy intake, but watch portion sizes for optimal health."
-        else:
-            comment = "Balanced calorie intake with good variety in your meals."
+        comment = f"Analyzed {len(meals)} meals. Consider adding more variety for better nutrition."
         
         return FoodAgentOutput(
             calories=total_calories,

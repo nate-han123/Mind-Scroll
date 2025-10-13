@@ -1,48 +1,77 @@
 from schemas.summary import ExerciseAgentOutput
+from langchain_openai import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class ExerciseAgent:
     def __init__(self):
         self.name = "Exercise Agent"
+        self.llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0.3,
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
     
     def analyze_exercises(self, exercises: list) -> ExerciseAgentOutput:
         """
-        Analyze exercise activities and return fitness insights
+        Analyze exercise activities using AI and return fitness insights
         """
-        # Simple calorie burn estimation
-        exercise_calories = {
-            "jog": 300,
-            "run": 400,
-            "pushup": 50,
-            "walk": 200,
-            "bike": 250,
-            "swim": 350
-        }
+        if not exercises:
+            return ExerciseAgentOutput(
+                calories_burned=0,
+                note="No exercises recorded today. Consider adding some physical activity to boost your health and energy."
+            )
         
-        total_calories_burned = 0
-        for exercise in exercises:
-            exercise_lower = exercise.lower()
-            for key, calories in exercise_calories.items():
-                if key in exercise_lower:
-                    # Adjust for duration if mentioned
-                    if "30" in exercise_lower or "mins" in exercise_lower:
-                        total_calories_burned += calories
-                    elif "sets" in exercise_lower:
-                        total_calories_burned += calories * 0.5  # Less for sets
-                    else:
-                        total_calories_burned += calories
-                    break
+        # Create prompt for AI analysis
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", """You are a fitness expert AI. Analyze the provided exercises and return a JSON response with:
+            - calories_burned: estimated total calories burned (integer)
+            - note: motivational and fitness advice (string)
+            
+            Consider factors like:
+            - Exercise type and intensity
+            - Duration mentioned
+            - Fitness level indicators
+            - Motivational tone
+            
+            Return ONLY valid JSON in this format:
+            {{"calories_burned": number, "note": "string"}}"""),
+            ("human", f"Analyze these exercises: {', '.join(exercises)}")
+        ])
         
-        # Generate motivational note
-        if total_calories_burned > 500:
+        try:
+            chain = prompt | self.llm
+            response = chain.invoke({})
+            
+            # Parse AI response
+            import json
+            result = json.loads(response.content)
+            
+            return ExerciseAgentOutput(
+                calories_burned=result.get("calories_burned", 0),
+                note=result.get("note", "Great job staying active!")
+            )
+            
+        except Exception as e:
+            print(f"Error in exercise agent: {e}")
+            # Fallback to simple analysis
+            return self._fallback_analysis(exercises)
+    
+    def _fallback_analysis(self, exercises: list) -> ExerciseAgentOutput:
+        """Fallback analysis if AI fails"""
+        total_calories = len(exercises) * 150  # Simple estimate
+        
+        if total_calories > 300:
             note = "Excellent workout! You're building great fitness habits."
-        elif total_calories_burned > 300:
-            note = "Good activity level! Consider adding some stretching."
-        elif total_calories_burned > 100:
-            note = "Nice start! Try to gradually increase your activity."
+        elif total_calories > 150:
+            note = "Good activity level! Keep up the great work."
         else:
-            note = "Every step counts! Consider a short walk to boost your day."
+            note = "Every step counts! Consider adding more activities."
         
         return ExerciseAgentOutput(
-            calories_burned=int(total_calories_burned),
+            calories_burned=total_calories,
             note=note
         )

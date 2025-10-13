@@ -2,77 +2,82 @@ from agents.food_agent import FoodAgent
 from agents.exercise_agent import ExerciseAgent
 from agents.lifestyle_agent import LifestyleAgent
 from schemas.summary import DailySummary
+from langchain_openai import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Orchestrator:
     def __init__(self):
         self.food_agent = FoodAgent()
         self.exercise_agent = ExerciseAgent()
         self.lifestyle_agent = LifestyleAgent()
+        self.llm = ChatOpenAI(
+            model="gpt-4o-mini",
+            temperature=0.4,
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
     
     def generate_daily_summary(self, user_data: dict) -> dict:
         """
-        Orchestrate all agents to generate a comprehensive daily summary
+        Orchestrate all agents to generate a comprehensive daily summary using AI
         """
         # Get agent outputs
         food_output = self.food_agent.analyze_meals(user_data.get("meals", []))
         exercise_output = self.exercise_agent.analyze_exercises(user_data.get("exercises", []))
         lifestyle_output = self.lifestyle_agent.analyze_lifestyle(user_data.get("lifestyle", {}))
         
-        # Calculate overall health score
-        overall_score = (
-            food_output.nutrition_score + 
-            (exercise_output.calories_burned / 50) +  # Convert to 0-10 scale
-            lifestyle_output.wellness_score
-        ) / 3
-        
-        # Generate summary
-        summary_parts = []
-        if food_output.nutrition_score > 7:
-            summary_parts.append("excellent nutrition choices")
-        elif food_output.nutrition_score > 5:
-            summary_parts.append("good meal variety")
-        else:
-            summary_parts.append("room for nutritional improvement")
-        
-        if exercise_output.calories_burned > 300:
-            summary_parts.append("active lifestyle")
-        elif exercise_output.calories_burned > 100:
-            summary_parts.append("moderate activity")
-        else:
-            summary_parts.append("opportunities for more movement")
-        
-        if lifestyle_output.wellness_score > 7:
-            summary_parts.append("healthy lifestyle habits")
-        else:
-            summary_parts.append("areas for lifestyle optimization")
-        
-        summary = f"Today shows {', '.join(summary_parts)}."
-        
-        # Generate personalized recommendations
-        recommendations = []
-        
-        # Sleep recommendation
-        sleep_hours = user_data.get("lifestyle", {}).get("sleep_hours", 8)
-        if sleep_hours < 7:
-            recommendations.append("Prioritize getting 7-8 hours of sleep tonight")
-        elif sleep_hours > 9:
-            recommendations.append("Consider if you need that much sleep - focus on quality")
-        
-        # Exercise recommendation
-        if exercise_output.calories_burned < 200:
-            recommendations.append("Add a 20-minute walk or light stretching to your day")
-        elif exercise_output.calories_burned > 500:
-            recommendations.append("Great workout! Remember to rest and recover properly")
-        
-        # Nutrition recommendation
-        if food_output.nutrition_score < 6:
-            recommendations.append("Include more vegetables and whole grains in your next meal")
-        elif food_output.nutrition_score > 8:
-            recommendations.append("Excellent food choices! Keep up the balanced eating")
-        
-        # Ensure we have at least 3 recommendations
-        while len(recommendations) < 3:
-            recommendations.append("Stay hydrated and take breaks throughout your day")
+        # Use AI to generate overall summary and recommendations
+        try:
+            prompt = ChatPromptTemplate.from_messages([
+                ("system", """You are a health and wellness expert AI. Based on the provided agent outputs, generate a comprehensive daily health summary with:
+                - overall_health_score: overall score from 0-10 (float)
+                - summary: brief daily summary (string)
+                - recommendations: list of 3 personalized recommendations (list of strings)
+                
+                Consider the nutrition score, exercise calories burned, and wellness score to provide balanced insights.
+                
+                Return ONLY valid JSON in this format:
+                {{"overall_health_score": number, "summary": "string", "recommendations": ["string1", "string2", "string3"]}}"""),
+                ("human", f"""Analyze this health data:
+                Nutrition: {food_output.nutrition_score}/10, {food_output.calories} calories, {food_output.comment}
+                Exercise: {exercise_output.calories_burned} calories burned, {exercise_output.note}
+                Lifestyle: {lifestyle_output.wellness_score}/10 wellness score, {lifestyle_output.advice}""")
+            ])
+            
+            chain = prompt | self.llm
+            response = chain.invoke({})
+            
+            # Parse AI response
+            import json
+            result = json.loads(response.content)
+            
+            orchestrator_summary = {
+                "overall_health_score": result.get("overall_health_score", 5.0),
+                "summary": result.get("summary", "Daily health analysis completed."),
+                "recommendations": result.get("recommendations", ["Stay hydrated", "Get enough sleep", "Stay active"])
+            }
+            
+        except Exception as e:
+            print(f"Error in orchestrator AI: {e}")
+            # Fallback to simple calculation
+            overall_score = (
+                food_output.nutrition_score + 
+                min(10, exercise_output.calories_burned / 50) +  # Convert to 0-10 scale
+                lifestyle_output.wellness_score
+            ) / 3
+            
+            orchestrator_summary = {
+                "overall_health_score": round(overall_score, 1),
+                "summary": f"Today shows nutrition score of {food_output.nutrition_score}/10, {exercise_output.calories_burned} calories burned, and wellness score of {lifestyle_output.wellness_score}/10.",
+                "recommendations": [
+                    "Maintain balanced nutrition",
+                    "Stay physically active",
+                    "Prioritize rest and recovery"
+                ]
+            }
         
         return {
             "food_agent": {
@@ -88,9 +93,5 @@ class Orchestrator:
                 "wellness_score": lifestyle_output.wellness_score,
                 "advice": lifestyle_output.advice
             },
-            "orchestrator_summary": {
-                "overall_health_score": round(overall_score, 1),
-                "summary": summary,
-                "recommendations": recommendations[:3]
-            }
+            "orchestrator_summary": orchestrator_summary
         }

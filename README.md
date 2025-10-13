@@ -35,6 +35,11 @@ mindscroll/
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+1. **OpenAI API Key**: Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. **Python 3.8+** and **Node.js 16+**
+
 ### Backend Setup
 
 1. Navigate to the backend directory:
@@ -47,7 +52,14 @@ mindscroll/
    pip install -r requirements.txt
    ```
 
-3. Start the FastAPI server:
+3. Set up environment variables:
+   ```bash
+   cp env.example .env
+   # Edit .env and add your OpenAI API key:
+   # OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+4. Start the FastAPI server:
    ```bash
    uvicorn main:app --reload
    ```
@@ -73,25 +85,40 @@ mindscroll/
 
    The frontend will be available at `http://localhost:3000`
 
+### Quick Start Script
+
+Use the provided startup script to run both services:
+```bash
+./start.sh
+```
+
 ## 🧠 How It Works
 
 ### Backend Architecture
 
-The backend simulates an AI health pipeline with three specialized agents:
+The backend uses **LangChain with GPT-4o-mini** for real AI processing:
 
-- **Food Agent**: Analyzes meal data and provides nutritional insights
-- **Exercise Agent**: Tracks physical activities and calculates calories burned
-- **Lifestyle Agent**: Monitors sleep patterns and screen time for wellness scoring
+- **Food Agent**: Uses AI to analyze meal descriptions and provide nutritional insights
+- **Exercise Agent**: Uses AI to evaluate exercise activities and calculate calories burned
+- **Lifestyle Agent**: Uses AI to assess sleep, screen time, and stress levels for wellness scoring
 
-The **Orchestrator** coordinates all agents and generates:
-- Overall health score (0-10)
-- Daily summary text
-- Personalized recommendations
+The **Orchestrator** coordinates all agents using AI to generate:
+- Overall health score (0-10) with intelligent analysis
+- Personalized daily summary text
+- Smart recommendations based on all health factors
 
 ### API Endpoints
 
 - `GET /` - API health check
-- `GET /generate-summary` - Generate comprehensive daily health summary
+- `GET /generate-summary` - Generate summary using dummy data (for testing)
+- `POST /generate-summary-from-user-data` - Generate summary from user input data
+
+### User Flow
+
+1. **Input Collection**: Users input their meals, exercises, and lifestyle data through interactive forms
+2. **AI Processing**: Each agent uses GPT-4o-mini to analyze the data intelligently
+3. **Orchestration**: The orchestrator combines all agent outputs using AI for final insights
+4. **Visual Feedback**: Color-coded results show performance levels (green/yellow/red)
 
 ### Frontend Features
 
@@ -127,11 +154,35 @@ The frontend uses Next.js with:
 
 ## 🧪 Testing the Pipeline
 
-1. Start both backend and frontend servers
-2. Visit `http://localhost:3000`
-3. Click "Generate Daily Summary"
-4. Watch the AI agents orchestrate results in real-time
-5. Explore the dashboard with agent outputs and recommendations
+### Complete User Flow
+
+1. **Start Services**: Run both backend and frontend servers
+2. **Visit Landing Page**: Go to `http://localhost:3000`
+3. **Input Data**: Click on agent buttons to input your data:
+   - 🍎 **Food Agent**: Enter your meals for the day
+   - 💪 **Exercise Agent**: Log your physical activities
+   - 🌱 **Lifestyle Agent**: Set sleep, screen time, and stress levels
+4. **AI Processing**: Watch as GPT-4o-mini analyzes your data
+5. **View Results**: See color-coded dashboard with personalized insights
+
+### Color-Coded Visual Feedback
+
+- 🟢 **Green**: Excellent performance (scores 8-10)
+- 🟡 **Yellow**: Fair performance (scores 6-7)
+- 🔴 **Red**: Needs attention (scores below 6)
+
+### API Testing
+
+Test the backend directly:
+```bash
+# Test with dummy data
+curl http://localhost:8000/generate-summary
+
+# Test with user data
+curl -X POST http://localhost:8000/generate-summary-from-user-data \
+  -H "Content-Type: application/json" \
+  -d '{"meals": ["Avocado toast"], "exercises": ["30-min jog"], "lifestyle": {"sleep_hours": 8, "screen_time": 3, "stress_level": 4}}'
+```
 
 ## 🌱 Future Expansion
 

@@ -3,5 +3,8 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/dashboard": "pages/dashboard.js"
+  "/food-input": "pages/food-input.js",
+  "/exercise-input": "pages/exercise-input.js",
+  "/dashboard": "pages/dashboard.js",
+  "/lifestyle-input": "pages/lifestyle-input.js"
 }

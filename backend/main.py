@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import List, Dict, Any
 import json
 import os
 from agents.orchestrator import Orchestrator
@@ -15,6 +17,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Pydantic models for request/response
+class UserData(BaseModel):
+    meals: List[str]
+    exercises: List[str]
+    lifestyle: Dict[str, Any]
+
 @app.get("/")
 async def root():
     return {"message": "Mindscroll AI Health Pipeline API"}
@@ -22,7 +30,7 @@ async def root():
 @app.get("/generate-summary")
 async def generate_summary():
     """
-    Generate a daily health summary by orchestrating all agents
+    Generate a daily health summary using dummy data (for testing)
     """
     try:
         # Load dummy data
@@ -40,6 +48,26 @@ async def generate_summary():
         
     except Exception as e:
         return {"error": f"Failed to generate summary: {str(e)}"}
+
+@app.post("/generate-summary-from-user-data")
+async def generate_summary_from_user_data(user_data: UserData):
+    """
+    Generate a daily health summary from user-provided data
+    """
+    try:
+        # Initialize orchestrator
+        orchestrator = Orchestrator()
+        
+        # Convert Pydantic model to dict
+        user_data_dict = user_data.dict()
+        
+        # Generate summary
+        summary = orchestrator.generate_daily_summary(user_data_dict)
+        
+        return summary
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate summary: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

@@ -37,29 +37,47 @@ const Home: React.FC = () => {
 
           <div className="mb-12">
             <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="card text-center">
-                <div className="text-4xl mb-3">🍎</div>
+              <button
+                onClick={() => router.push('/food-input')}
+                className="card text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+              >
+                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">🍎</div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Food Agent</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 mb-3">
                   Analyzes your meals and provides nutritional insights
                 </p>
-              </div>
+                <div className="text-primary-600 font-medium text-sm">
+                  Click to input your meals →
+                </div>
+              </button>
               
-              <div className="card text-center">
-                <div className="text-4xl mb-3">💪</div>
+              <button
+                onClick={() => router.push('/exercise-input')}
+                className="card text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+              >
+                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">💪</div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Exercise Agent</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 mb-3">
                   Tracks your activities and motivates your fitness journey
                 </p>
-              </div>
+                <div className="text-primary-600 font-medium text-sm">
+                  Click to input your exercises →
+                </div>
+              </button>
               
-              <div className="card text-center">
-                <div className="text-4xl mb-3">🌱</div>
+              <button
+                onClick={() => router.push('/lifestyle-input')}
+                className="card text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+              >
+                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">🌱</div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Lifestyle Agent</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 mb-3">
                   Monitors sleep, screen time, and overall wellness
                 </p>
-              </div>
+                <div className="text-primary-600 font-medium text-sm">
+                  Click to input your lifestyle →
+                </div>
+              </button>
             </div>
           </div>
 
