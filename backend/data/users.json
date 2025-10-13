@@ -1,0 +1,979 @@
+{
+  "8f2c7511-2158-4c23-9d16-41a08d347376": {
+    "id": "8f2c7511-2158-4c23-9d16-41a08d347376",
+    "credentials": {
+      "email": "test@example.com",
+      "password": "password123",
+      "created_at": "2025-10-13 15:51:16.065543"
+    },
+    "profile": {
+      "name": "Test User",
+      "age": 25,
+      "gender": "male",
+      "weight": 70.0,
+      "height": 170.0,
+      "activity_level": "moderately_active",
+      "medical_conditions": [],
+      "dietary_restrictions": [],
+      "created_at": "2025-10-13 15:51:16.066129"
+    },
+    "goal": {
+      "goal_type": "general_health",
+      "target_weight": 70.0,
+      "target_muscle_mass": null,
+      "target_calories_per_day": 2200,
+      "target_protein_per_day": 112.0,
+      "target_exercise_minutes_per_week": 250,
+      "target_sleep_hours": 8.0,
+      "target_screen_time_hours": 6.0,
+      "target_stress_level": 5.0,
+      "goal_description": "Personalized health goal based on your profile: general_health",
+      "ai_generated": true,
+      "created_at": "2025-10-13 15:51:16.066539"
+    },
+    "progress": {
+      "user_id": "8f2c7511-2158-4c23-9d16-41a08d347376",
+      "entries": [],
+      "current_streak": 0,
+      "total_entries": 0,
+      "last_entry_date": null
+    },
+    "is_active": true,
+    "created_at": "2025-10-13 15:51:16.067582",
+    "updated_at": "2025-10-13 15:51:16.067582"
+  },
+  "0bb2ecd0-c19b-4aba-a3f3-79c9e5731a9d": {
+    "id": "0bb2ecd0-c19b-4aba-a3f3-79c9e5731a9d",
+    "credentials": {
+      "email": "test2@example.com",
+      "password": "password123",
+      "created_at": "2025-10-13 15:51:16.065543"
+    },
+    "profile": {
+      "name": "Test User 2",
+      "age": 25,
+      "gender": "male",
+      "weight": 70.0,
+      "height": 170.0,
+      "activity_level": "moderately_active",
+      "medical_conditions": [],
+      "dietary_restrictions": [],
+      "created_at": "2025-10-13 15:51:16.066129"
+    },
+    "goal": {
+      "goal_type": "general_health",
+      "target_weight": 70.0,
+      "target_muscle_mass": null,
+      "target_calories_per_day": 2200,
+      "target_protein_per_day": 112.0,
+      "target_exercise_minutes_per_week": 250,
+      "target_sleep_hours": 8.0,
+      "target_screen_time_hours": 6.0,
+      "target_stress_level": 5.0,
+      "goal_description": "Personalized health goal based on your profile: general_health",
+      "ai_generated": true,
+      "created_at": "2025-10-13 15:51:16.066539"
+    },
+    "progress": {
+      "user_id": "0bb2ecd0-c19b-4aba-a3f3-79c9e5731a9d",
+      "entries": [],
+      "current_streak": 0,
+      "total_entries": 0,
+      "last_entry_date": null
+    },
+    "is_active": true,
+    "created_at": "2025-10-13 15:51:16.067582",
+    "updated_at": "2025-10-13 15:51:16.067582"
+  },
+  "71ba1475-ad89-4716-8555-6456a2820cf6": {
+    "id": "71ba1475-ad89-4716-8555-6456a2820cf6",
+    "credentials": {
+      "email": "kmm9570@nyu.edu",
+      "password": "Bulbula49@ma2626",
+      "created_at": "2025-10-13 15:55:09.970235"
+    },
+    "profile": {
+      "name": "Ken",
+      "age": 22,
+      "gender": "male",
+      "weight": 122.0,
+      "height": 175.0,
+      "activity_level": "moderately_active",
+      "medical_conditions": [],
+      "dietary_restrictions": [],
+      "created_at": "2025-10-13 15:55:09.970783"
+    },
+    "goal": {
+      "goal_type": "weight_loss",
+      "target_weight": 109.8,
+      "target_muscle_mass": null,
+      "target_calories_per_day": 2200,
+      "target_protein_per_day": 195.20000000000002,
+      "target_exercise_minutes_per_week": 250,
+      "target_sleep_hours": 8.0,
+      "target_screen_time_hours": 6.0,
+      "target_stress_level": 5.0,
+      "goal_description": "Personalized health goal based on your profile: weight_loss",
+      "ai_generated": true,
+      "created_at": "2025-10-13 16:06:49.603493"
+    },
+    "progress": {
+      "user_id": "71ba1475-ad89-4716-8555-6456a2820cf6",
+      "entries": [
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites"
+          ],
+          "exercises": [
+            "25 pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 15:56:47.310815"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites"
+          ],
+          "exercises": [
+            "25 pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 15:56:47.310815"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites"
+          ],
+          "exercises": [
+            "25 pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites"
+          ],
+          "exercises": [
+            "25 pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites"
+          ],
+          "exercises": [
+            "25 pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites"
+          ],
+          "exercises": [
+            "25 pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "three portions of egg white"
+          ],
+          "exercises": [
+            "1 hour of jogging"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 3
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "three portions of egg white"
+          ],
+          "exercises": [
+            "1 hour of jogging"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 3
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites, avocado, vegetables, coffee"
+          ],
+          "exercises": [
+            "an hour and half exercising in the gym"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites, avocado, vegetables, coffee"
+          ],
+          "exercises": [
+            "an hour and half exercising in the gym"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites, avocado, vegetables, coffee"
+          ],
+          "exercises": [
+            "an hour and half exercising in the gym"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "egg whites, avocado, vegetables, coffee"
+          ],
+          "exercises": [
+            "an hour and half exercising in the gym"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 15:57:27.150609"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:04:07.000375"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado ",
+            "egg white",
+            "vegetables ",
+            "coffee"
+          ],
+          "exercises": [
+            "20 set of pushups",
+            "one hour of walking"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado toast"
+          ],
+          "exercises": [
+            "25 sets of push up"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        },
+        {
+          "date": "2025-10-13",
+          "meals": [
+            "avocado toast"
+          ],
+          "exercises": [
+            "25 sets of push up"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 4,
+            "stress_level": 5
+          },
+          "created_at": "2025-10-13 16:06:49.604071"
+        }
+      ],
+      "current_streak": 1,
+      "total_entries": 43,
+      "last_entry_date": "2025-10-13"
+    },
+    "is_active": true,
+    "created_at": "2025-10-13 15:55:09.972191",
+    "updated_at": "2025-10-13 15:55:09.972192"
+  },
+  "6d49b77c-117d-4fa8-9a60-cefe751f109e": {
+    "id": "6d49b77c-117d-4fa8-9a60-cefe751f109e",
+    "credentials": {
+      "email": "test3@example.com",
+      "password": "password123",
+      "created_at": "2025-10-13 15:56:47.309203"
+    },
+    "profile": {
+      "name": "Test User Updated",
+      "age": 35,
+      "gender": "male",
+      "weight": 80.0,
+      "height": 175.0,
+      "activity_level": "moderately_active",
+      "medical_conditions": [],
+      "dietary_restrictions": [],
+      "created_at": "2025-10-13 15:56:47.309846"
+    },
+    "goal": {
+      "goal_type": "weight_loss",
+      "target_weight": 72.0,
+      "target_muscle_mass": null,
+      "target_calories_per_day": 2200,
+      "target_protein_per_day": 128.0,
+      "target_exercise_minutes_per_week": 250,
+      "target_sleep_hours": 8.0,
+      "target_screen_time_hours": 6.0,
+      "target_stress_level": 5.0,
+      "goal_description": "Personalized health goal based on your profile: weight_loss",
+      "ai_generated": true,
+      "created_at": "2025-10-13 16:06:49.603493"
+    },
+    "progress": {
+      "user_id": "6d49b77c-117d-4fa8-9a60-cefe751f109e",
+      "entries": [],
+      "current_streak": 0,
+      "total_entries": 0,
+      "last_entry_date": null
+    },
+    "is_active": true,
+    "created_at": "2025-10-13 15:56:47.311300",
+    "updated_at": "2025-10-13 15:56:47.311301"
+  },
+  "bc027e5e-5d17-4fdf-8356-579762e89175": {
+    "id": "bc027e5e-5d17-4fdf-8356-579762e89175",
+    "credentials": {
+      "email": "test4@example.com",
+      "password": "password123",
+      "created_at": "2025-10-13 16:06:49.602557"
+    },
+    "profile": {
+      "name": "Test User 4",
+      "age": 25,
+      "gender": "male",
+      "weight": 70.0,
+      "height": 170.0,
+      "activity_level": "moderately_active",
+      "medical_conditions": [],
+      "dietary_restrictions": [],
+      "created_at": "2025-10-13 16:06:49.603085"
+    },
+    "goal": {
+      "goal_type": "general_health",
+      "target_weight": 70.0,
+      "target_muscle_mass": null,
+      "target_calories_per_day": 2200,
+      "target_protein_per_day": 112.0,
+      "target_exercise_minutes_per_week": 250,
+      "target_sleep_hours": 8.0,
+      "target_screen_time_hours": 6.0,
+      "target_stress_level": 5.0,
+      "goal_description": "Personalized health goal based on your profile: general_health",
+      "ai_generated": true,
+      "created_at": "2025-10-13 16:06:49.603493"
+    },
+    "progress": {
+      "user_id": "bc027e5e-5d17-4fdf-8356-579762e89175",
+      "entries": [],
+      "current_streak": 0,
+      "total_entries": 0,
+      "last_entry_date": null
+    },
+    "is_active": true,
+    "created_at": "2025-10-13 16:06:49.604595",
+    "updated_at": "2025-10-13 16:06:49.604595"
+  }
+}

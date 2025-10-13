@@ -5,6 +5,6 @@
   "/": "pages/index.js",
   "/food-input": "pages/food-input.js",
   "/exercise-input": "pages/exercise-input.js",
-  "/dashboard": "pages/dashboard.js",
-  "/lifestyle-input": "pages/lifestyle-input.js"
+  "/lifestyle-input": "pages/lifestyle-input.js",
+  "/dashboard": "pages/dashboard.js"
 }
