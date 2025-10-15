@@ -38,6 +38,21 @@ class UserProfile(BaseModel):
     activity_level: ActivityLevel
     medical_conditions: Optional[List[str]] = []
     dietary_restrictions: Optional[List[str]] = []
+    
+    # Personalization
+    nickname: Optional[str] = None
+    avatar: Optional[str] = None
+    
+    # Health Goals and Motivation
+    primary_health_goal: str
+    motivation: Optional[str] = None
+    lifestyle_vision: Optional[str] = None
+    
+    # Intellectual Interests
+    intellectual_interests: List[str]
+    learning_style: str
+    time_availability: str
+    
     created_at: datetime = datetime.now()
 
 class UserGoal(BaseModel):

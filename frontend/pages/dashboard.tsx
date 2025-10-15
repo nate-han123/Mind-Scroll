@@ -30,23 +30,25 @@ const Dashboard: React.FC = () => {
         // Debug: Log the user data to see what we're working with
         console.log('Dashboard user data:', userData);
         
-        // Get today's data from localStorage, with sample data if empty
+        // Get today's data from localStorage (no dummy data)
         let foodData = JSON.parse(localStorage.getItem('userFoodData') || '[]');
         let exerciseData = JSON.parse(localStorage.getItem('userExerciseData') || '[]');
         let lifestyleData = JSON.parse(localStorage.getItem('userLifestyleData') || '{}');
         
-        // Add sample data if no data exists
-        if (foodData.length === 0) {
-          foodData = ['Oatmeal with berries', 'Grilled chicken salad', 'Greek yogurt with nuts'];
-          localStorage.setItem('userFoodData', JSON.stringify(foodData));
-        }
-        if (exerciseData.length === 0) {
-          exerciseData = ['30-minute morning jog', '15-minute strength training'];
-          localStorage.setItem('userExerciseData', JSON.stringify(exerciseData));
-        }
-        if (Object.keys(lifestyleData).length === 0) {
-          lifestyleData = { sleep_hours: 8, screen_time: 6, stress_level: 4, water_intake: 8 };
-          localStorage.setItem('userLifestyleData', JSON.stringify(lifestyleData));
+        // If no data exists, show empty state instead of redirecting
+        if (foodData.length === 0 && exerciseData.length === 0 && Object.keys(lifestyleData).length === 0) {
+          setSummary({
+            food_agent_summary: { summary: "No food data logged yet", score: 0, recommendations: [] },
+            exercise_agent_summary: { summary: "No exercise data logged yet", score: 0, recommendations: [] },
+            lifestyle_agent_summary: { summary: "No lifestyle data logged yet", score: 0, recommendations: [] },
+            orchestrator_summary: { 
+              summary: "Welcome! Start tracking your meals, exercises, and lifestyle activities to get personalized insights.", 
+              overall_health_score: 0,
+              recommendations: []
+            }
+          });
+          setIsLoading(false);
+          return;
         }
         
         // Use personalized summary API
@@ -65,6 +67,11 @@ const Dashboard: React.FC = () => {
         
         if (response.ok) {
           const data = await response.json();
+          console.log('API Response:', data); // Debug log
+          // Ensure recommendations array exists
+          if (data.orchestrator_summary && !data.orchestrator_summary.recommendations) {
+            data.orchestrator_summary.recommendations = [];
+          }
           setSummary(data);
         } else {
           throw new Error('Failed to generate personalized summary');
@@ -72,6 +79,17 @@ const Dashboard: React.FC = () => {
       } catch (err) {
         setError('Failed to load summary. Please try again.');
         console.error('Error loading summary:', err);
+        // Set fallback data when API fails
+        setSummary({
+          food_agent_summary: { summary: "Unable to analyze food data", score: 0, recommendations: [] },
+          exercise_agent_summary: { summary: "Unable to analyze exercise data", score: 0, recommendations: [] },
+          lifestyle_agent_summary: { summary: "Unable to analyze lifestyle data", score: 0, recommendations: [] },
+          orchestrator_summary: { 
+            summary: "Unable to generate personalized summary. Please try again later.", 
+            overall_health_score: 0,
+            recommendations: []
+          }
+        });
       } finally {
         setIsLoading(false);
       }
@@ -149,18 +167,28 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen gradient-bg">
-      <Navbar />
+      <Navbar showUserControls={true} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Welcome back, {user?.name || 'User'}! 👋
-              </h1>
+              <div className="flex items-center mb-2">
+                <span className="text-3xl mr-3">{user?.avatar || '💪'}</span>
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    Welcome back, {user?.nickname || user?.name || 'User'}! 👋
+                  </h1>
+                  {user?.nickname && (
+                    <p className="text-sm text-gray-500">
+                      {user.name} • The {user.nickname}
+                    </p>
+                  )}
+                </div>
+              </div>
               <p className="text-gray-600 mt-2">
-                Your personalized health insights and progress toward your goals
+                Your personalized student health insights and progress toward your study goals
               </p>
             </div>
             <button
@@ -171,6 +199,26 @@ const Dashboard: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {/* No Data Message */}
+        {summary.orchestrator_summary.overall_health_score === 0 && (
+          <div className="mb-8">
+            <div className="card max-w-2xl mx-auto text-center">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                No Data Yet 📊
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Start tracking your daily activities to get personalized insights and recommendations.
+              </p>
+              <button
+                onClick={() => router.push('/data-entry')}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Start Tracking →
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Overall Summary */}
         <div className="mb-8">
@@ -187,9 +235,9 @@ const Dashboard: React.FC = () => {
 
         {/* Agent Outputs */}
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          <AgentOutput agent="food" data={summary.food_agent} />
-          <AgentOutput agent="exercise" data={summary.exercise_agent} />
-          <AgentOutput agent="lifestyle" data={summary.lifestyle_agent} />
+          <AgentOutput agent="food" data={summary.food_agent || {}} />
+          <AgentOutput agent="exercise" data={summary.exercise_agent || {}} />
+          <AgentOutput agent="lifestyle" data={summary.lifestyle_agent || {}} />
         </div>
 
         {/* Goal Progress */}
@@ -215,31 +263,27 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Recommendations */}
-        <div className="card bg-gradient-to-r from-primary-50 to-secondary-50 border-primary-200">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="text-2xl mr-3">💡</span>
-            Personalized Recommendations
-          </h3>
-          <div className="space-y-3">
-            {summary.orchestrator_summary.recommendations.map((recommendation, index) => (
-              <div key={index} className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3 mt-0.5">
-                  {index + 1}
+        {(summary.orchestrator_summary.recommendations && summary.orchestrator_summary.recommendations.length > 0) && (
+          <div className="card bg-gradient-to-r from-primary-50 to-secondary-50 border-primary-200">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+              <span className="text-2xl mr-3">💡</span>
+              Personalized Recommendations
+            </h3>
+            <div className="space-y-3">
+              {summary.orchestrator_summary.recommendations.map((recommendation, index) => (
+                <div key={index} className="flex items-start">
+                  <div className="flex-shrink-0 w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3 mt-0.5">
+                    {index + 1}
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">{recommendation}</p>
                 </div>
-                <p className="text-gray-700 leading-relaxed">{recommendation}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Action Buttons */}
         <div className="mt-8 flex justify-center space-x-4">
-          <button
-            onClick={() => router.push('/profile')}
-            className="bg-secondary-500 text-white px-6 py-3 rounded-lg hover:bg-secondary-600 transition-colors font-medium"
-          >
-            Edit Profile & Goal
-          </button>
           <button
             onClick={handleRefresh}
             className="bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600 transition-colors font-medium"

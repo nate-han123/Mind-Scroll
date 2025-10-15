@@ -27,20 +27,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/dashboard.js"
     ],
-    "/exercise-input": [
+    "/intellectual": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/exercise-input.js"
+      "static/chunks/pages/intellectual.js"
     ],
-    "/food-input": [
+    "/path-selection": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/food-input.js"
-    ],
-    "/lifestyle-input": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/lifestyle-input.js"
+      "static/chunks/pages/path-selection.js"
     ]
   },
   "ampFirstPages": []

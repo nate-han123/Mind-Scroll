@@ -29,7 +29,7 @@ const Login: React.FC = () => {
         const result = await response.json();
         // Store user data in localStorage
         localStorage.setItem('user', JSON.stringify(result));
-        router.push('/dashboard');
+        router.push('/path-selection');
       } else {
         const errorData = await response.json();
         // Handle both string and object errors
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen gradient-bg">
-      <Navbar title="Welcome Back" />
+      <Navbar />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">

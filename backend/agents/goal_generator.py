@@ -3,6 +3,7 @@ from langchain.prompts import ChatPromptTemplate
 import os
 from dotenv import load_dotenv
 from schemas.user import UserProfile, UserGoal, GoalType, ActivityLevel, Gender
+from agents.personalization_generator import PersonalizationGenerator
 import json
 
 load_dotenv()
@@ -14,13 +15,14 @@ class GoalGenerator:
             temperature=0.3,
             api_key=os.getenv("OPENAI_API_KEY")
         )
+        self.personalization_generator = PersonalizationGenerator()
     
     def generate_goal(self, profile: UserProfile) -> UserGoal:
         """Generate personalized health goal based on user profile"""
         
         # Create prompt for AI goal generation
         prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are a health and fitness expert AI. Based on the user's profile, generate a personalized health goal.
+            ("system", """You are a student health and wellness expert AI. Based on the student's profile, generate a personalized health goal that considers their academic lifestyle and study demands.
 
             Generate a comprehensive health goal that includes:
             - goal_type: one of "weight_loss", "weight_gain", "muscle_gain", "endurance", "general_health", "stress_reduction", "better_sleep"
@@ -35,14 +37,29 @@ class GoalGenerator:
 
             Return ONLY valid JSON in this format:
             {{"goal_type": "string", "target_weight": number, "target_calories_per_day": number, "target_protein_per_day": number, "target_exercise_minutes_per_week": number, "target_sleep_hours": number, "target_screen_time_hours": number, "target_stress_level": number, "goal_description": "string"}}"""),
-            ("human", f"""Generate a personalized health goal for this user:
+            ("human", f"""Generate a personalized student health goal for this student:
+            
+            BASIC INFO:
+            Name: {profile.name}
             Age: {profile.age}
-            Gender: {profile.gender}
+            Gender: {profile.gender.value}
             Weight: {profile.weight} kg
             Height: {profile.height} cm
-            Activity Level: {profile.activity_level}
+            Activity Level: {profile.activity_level.value}
+            
+            HEALTH INFO:
             Medical Conditions: {', '.join(profile.medical_conditions) if profile.medical_conditions else 'None'}
-            Dietary Restrictions: {', '.join(profile.dietary_restrictions) if profile.dietary_restrictions else 'None'}""")
+            Dietary Restrictions: {', '.join(profile.dietary_restrictions) if profile.dietary_restrictions else 'None'}
+            
+            HEALTH GOALS & MOTIVATION:
+            Primary Health Goal: {profile.primary_health_goal}
+            Motivation: {profile.motivation or 'Not specified'}
+            Lifestyle Vision: {profile.lifestyle_vision or 'Not specified'}
+            
+            INTELLECTUAL INTERESTS:
+            Intellectual Interests: {', '.join(profile.intellectual_interests) if profile.intellectual_interests else 'Not specified'}
+            Learning Style: {profile.learning_style}
+            Time Availability: {profile.time_availability}""")
         ])
         
         try:

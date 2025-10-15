@@ -1,5 +1,52 @@
-venv/
-node_modules/
+# Mindscroll Project .gitignore
+
+# ===========================================
+# Environment & Secrets
+# ===========================================
 .env
+.env.local
+.env.*.local
+mongodb.txt
+
+# ===========================================
+# Python / Backend
+# ===========================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+ENV/
+
+# ===========================================
+# Node.js / Frontend
+# ===========================================
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===========================================
+# Local Data & Cache
+# ===========================================
+backend/data/users.json
+backend/data/*.json
+.cache/
+*.log
+
+# ===========================================
+# Development Files
+# ===========================================
+start.sh
+CLEANUP_SUMMARY.md
+
+# ===========================================
+# OS Files
+# ===========================================
 .DS_Store
-.env.example
+Thumbs.db

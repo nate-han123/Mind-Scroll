@@ -1,36 +1,45 @@
-# Mindscroll — AI Health Pipeline Prototype
+# Mindscroll — AI-Powered Student Health & Learning Platform
 
-A minimal working prototype that simulates the Mindscroll orchestration system with a frontend dashboard and a FastAPI backend, using dummy data to demonstrate how multiple health agents (food, exercise, lifestyle) communicate with an orchestrator to generate daily summaries and personalized insights.
+A comprehensive student-focused health and learning platform that uses AI to help students balance their academic life with physical wellness. Features personalized health goals, educational content, and intelligent insights tailored specifically for student lifestyles.
+
+## 🎯 Key Features
+
+### 🎓 Student-Focused Design
+- **Academic Language**: All content tailored for student life
+- **Study-Life Balance**: Health tracking optimized for student schedules
+- **Educational Content**: YouTube integration for learning and growth
+- **Student Goals**: AI-generated health goals for academic success
+
+### 🤖 AI-Powered Insights
+- **Personalized Goals**: AI creates custom health goals based on student profile
+- **Daily Analysis**: Intelligent evaluation of food, exercise, and lifestyle choices
+- **Smart Recommendations**: Actionable advice for student wellness
+- **Progress Tracking**: Long-term goal monitoring and motivation
+
+### 🛤️ Dual Path System
+- **Health Path**: Physical wellness and lifestyle tracking
+- **Study Path**: Educational content and intellectual growth
+- **Unified Experience**: Seamless switching between health and learning
 
 ## 🏗️ Project Structure
 
 ```
 mindscroll/
-├── backend/
-│   ├── main.py                 # FastAPI application
-│   ├── agents/
-│   │   ├── food_agent.py       # Analyzes meals and nutrition
-│   │   ├── exercise_agent.py   # Tracks exercise activities
-│   │   ├── lifestyle_agent.py  # Monitors sleep and screen time
-│   │   └── orchestrator.py     # Coordinates all agents
-│   ├── schemas/
-│   │   └── summary.py          # Pydantic data models
-│   ├── dummy_data/
-│   │   └── user_data.json      # Sample user data
-│   └── requirements.txt        # Python dependencies
-└── frontend/
-    ├── pages/
-    │   ├── index.tsx           # Landing page
-    │   └── dashboard.tsx        # Results dashboard
-    ├── components/
-    │   ├── SummaryCard.tsx     # Reusable summary card
-    │   ├── AgentOutput.tsx     # Agent-specific output display
-    │   └── Navbar.tsx          # Navigation component
-    ├── utils/
-    │   └── api.ts              # API communication utilities
-    ├── styles/
-    │   └── globals.css         # Global styles with Tailwind
-    └── package.json            # Node.js dependencies
+├── backend/                    # FastAPI Python backend
+│   ├── agents/                # AI agents and orchestration
+│   ├── routes/                # API endpoints
+│   ├── services/              # Business logic
+│   ├── schemas/               # Data validation
+│   └── main.py                # Application entry point
+├── frontend/                   # Next.js React frontend
+│   ├── pages/                 # Application pages
+│   ├── components/            # Reusable components
+│   ├── src/modules/           # Feature modules
+│   └── utils/                 # Utility functions
+├── DEPLOYMENT.md              # Deployment guide
+├── MOBILE_GUIDE.md            # Mobile app integration guide
+├── PROJECT_STRUCTURE.md       # Detailed project documentation
+└── README.md                  # This file
 ```
 
 ## 🚀 Quick Start
@@ -38,7 +47,9 @@ mindscroll/
 ### Prerequisites
 
 1. **OpenAI API Key**: Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
-2. **Python 3.8+** and **Node.js 16+**
+2. **YouTube API Key**: Get your API key from [Google Cloud Console](https://console.cloud.google.com/)
+3. **Python 3.8+** and **Node.js 16+**
+4. **MongoDB Atlas** (optional, for production)
 
 ### Backend Setup
 
@@ -55,8 +66,10 @@ mindscroll/
 3. Set up environment variables:
    ```bash
    cp env.example .env
-   # Edit .env and add your OpenAI API key:
+   # Edit .env and add your API keys:
    # OPENAI_API_KEY=your_openai_api_key_here
+   # YOUTUBE_API_KEY=your_youtube_api_key_here
+   # MONGODB_URL=your_mongodb_connection_string (optional)
    ```
 
 4. Start the FastAPI server:
@@ -92,33 +105,59 @@ Use the provided startup script to run both services:
 ./start.sh
 ```
 
+## 🎯 User Journey
+
+### 1. Student Registration
+- **Essential Signup**: Multi-step form collecting student information
+- **AI Goal Generation**: Personalized health goals based on student profile
+- **AI Personalization**: Custom nickname and avatar generation
+- **Path Selection**: Choose between Health Path and Study Path
+
+### 2. Health Path Experience
+- **Goal Homepage**: Display personalized student health goals
+- **Daily Tracking**: Log student meals, activities, and lifestyle
+- **AI Analysis**: Get intelligent insights and recommendations
+- **Progress Dashboard**: Track progress toward health goals
+
+### 3. Study Path Experience
+- **Interest Selection**: Choose academic subjects of interest
+- **Duration Preference**: Set video length preferences
+- **Educational Content**: Watch YouTube videos or fallback content
+- **Progress Tracking**: Save and organize educational content
+
 ## 🧠 How It Works
 
 ### Backend Architecture
 
 The backend uses **LangChain with GPT-4o-mini** for real AI processing:
 
-- **Food Agent**: Uses AI to analyze meal descriptions and provide nutritional insights
-- **Exercise Agent**: Uses AI to evaluate exercise activities and calculate calories burned
-- **Lifestyle Agent**: Uses AI to assess sleep, screen time, and stress levels for wellness scoring
+- **Food Agent**: Analyzes student meals and provides nutritional insights
+- **Exercise Agent**: Evaluates physical activities and study breaks
+- **Lifestyle Agent**: Assesses sleep, screen time, and stress for student wellness
+- **Goal Generator**: Creates personalized health goals for students
+- **Personalization Generator**: Creates student-friendly nicknames and avatars
 
-The **Orchestrator** coordinates all agents using AI to generate:
-- Overall health score (0-10) with intelligent analysis
-- Personalized daily summary text
-- Smart recommendations based on all health factors
+The **Enhanced Orchestrator** coordinates all agents using AI to generate:
+- Overall health score (0-10) with student-focused analysis
+- Personalized daily summary for student life
+- Smart recommendations for academic success and wellness
 
 ### API Endpoints
 
-- `GET /` - API health check
-- `GET /generate-summary` - Generate summary using dummy data (for testing)
-- `POST /generate-summary-from-user-data` - Generate summary from user input data
+**Authentication:**
+- `POST /auth/signup` - Student registration
+- `POST /auth/login` - Student authentication
+- `GET /user/profile` - Get student profile
+- `PUT /user/profile` - Update student profile
 
-### User Flow
+**Health Analysis:**
+- `POST /generate-summary-from-user-data` - Generate health summary
+- `GET /user/{user_id}/progress` - Get student progress
 
-1. **Input Collection**: Users input their meals, exercises, and lifestyle data through interactive forms
-2. **AI Processing**: Each agent uses GPT-4o-mini to analyze the data intelligently
-3. **Orchestration**: The orchestrator combines all agent outputs using AI for final insights
-4. **Visual Feedback**: Color-coded results show performance levels (green/yellow/red)
+**Educational Content:**
+- `GET /api/intellectual/recommendations` - Get educational videos
+- `GET /api/intellectual/recommendations/personalized` - Personalized content
+- `GET /api/intellectual/categories` - Available subject categories
 
 ### Frontend Features
 
@@ -184,34 +223,108 @@ curl -X POST http://localhost:8000/generate-summary-from-user-data \
   -d '{"meals": ["Avocado toast"], "exercises": ["30-min jog"], "lifestyle": {"sleep_hours": 8, "screen_time": 3, "stress_level": 4}}'
 ```
 
-## 🌱 Future Expansion
+## 📚 Documentation
 
-This prototype is designed for easy expansion:
+### For Developers
+- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**: Detailed project architecture and components
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)**: Complete deployment guide for production
+- **[MOBILE_GUIDE.md](./MOBILE_GUIDE.md)**: Mobile app integration guide
 
-- Replace dummy agent logic with real AI model calls
-- Add user input forms for meal tracking and sleep logging
-- Integrate with PostgreSQL via Supabase
-- Add Firebase notifications for daily affirmations
-- Implement reward system and social sharing features
-- Add real-time data visualization with charts
+### For Team Members
+- **Backend Developer**: Focus on `backend/` directory and API endpoints
+- **Frontend Developer**: Focus on `frontend/` directory and React components
+- **Mobile Developer**: Use `MOBILE_GUIDE.md` for React Native/Flutter implementation
+- **DevOps Engineer**: Use `DEPLOYMENT.md` for production deployment
 
-## 📦 Deployment Ready
+## 🚀 Production Deployment
 
-The project structure is optimized for:
-- **Vercel**: Frontend deployment
-- **Render**: Backend deployment
-- **Docker**: Containerization support
-- **Environment Variables**: Configuration management
+### Quick Deployment Options
 
-## 🤝 Contributing
+**Option 1: Separate Deployment (Recommended)**
+- **Backend**: Deploy to Railway, Render, or DigitalOcean
+- **Frontend**: Deploy to Vercel, Netlify, or Railway
+- **Database**: Use MongoDB Atlas for production
 
-This is a prototype demonstration. For production use:
-1. Add proper error handling
-2. Implement authentication
-3. Add data persistence
-4. Integrate real AI models
-5. Add comprehensive testing
+**Option 2: Monolithic Deployment**
+- **Single Platform**: Deploy both backend and frontend together
+- **Docker**: Use provided Dockerfile for containerization
+- **Environment**: Set all required environment variables
+
+### Required Environment Variables
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+YOUTUBE_API_KEY=your_youtube_api_key_here
+MONGODB_URL=your_mongodb_connection_string
+```
+
+## 📱 Mobile App Development
+
+### React Native Implementation
+- Use the provided `MOBILE_GUIDE.md` for step-by-step implementation
+- Reuse existing API endpoints
+- Implement native features (camera, notifications, biometrics)
+
+### Flutter Implementation
+- Follow Flutter guide in `MOBILE_GUIDE.md`
+- Use existing backend APIs
+- Implement platform-specific features
+
+## 🔧 Development Workflow
+
+### Local Development
+1. **Backend**: `cd backend && uvicorn main:app --reload`
+2. **Frontend**: `cd frontend && npm run dev`
+3. **Database**: Use MongoDB Atlas or local MongoDB
+
+### Code Organization
+- **Modular Structure**: Separate concerns into modules
+- **Reusable Components**: Shared UI components
+- **Type Safety**: TypeScript for frontend, Pydantic for backend
+- **Error Handling**: Comprehensive error management
+
+## 🎯 Next Steps for Production
+
+### Immediate Tasks
+1. **Deploy Backend**: Follow `DEPLOYMENT.md` guide
+2. **Deploy Frontend**: Use Vercel or similar platform
+3. **Set Up Database**: Configure MongoDB Atlas
+4. **Configure APIs**: Set up OpenAI and YouTube API keys
+
+### Mobile Development
+1. **Choose Platform**: React Native or Flutter
+2. **Follow Guide**: Use `MOBILE_GUIDE.md` for implementation
+3. **Test Integration**: Ensure mobile app works with deployed backend
+4. **App Store**: Deploy to iOS App Store and Google Play
+
+### Long-term Enhancements
+- **Real-time Features**: WebSocket integration
+- **Advanced Analytics**: User behavior tracking
+- **Social Features**: Student community and sharing
+- **AI Improvements**: More sophisticated health analysis
+- **Gamification**: Rewards and achievement system
+
+## 🤝 Team Collaboration
+
+### For Backend Developer
+- Focus on API endpoints and database integration
+- Implement additional AI agents as needed
+- Optimize performance and scalability
+- Add comprehensive error handling
+
+### For Frontend Developer
+- Enhance UI/UX based on user feedback
+- Implement additional features and pages
+- Optimize performance and loading times
+- Add responsive design improvements
+
+### For Mobile Developer
+- Convert web components to mobile components
+- Implement native features and optimizations
+- Ensure cross-platform compatibility
+- Add offline functionality
 
 ---
 
-**Built with ❤️ for AI Health Innovation**
+**Built with ❤️ for Student Health & Learning Innovation**
+
+*This project is production-ready and optimized for team collaboration. Use the provided documentation to deploy and extend the platform.*
