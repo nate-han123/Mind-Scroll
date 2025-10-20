@@ -19,6 +19,12 @@ const DataEntry: React.FC = () => {
   // Food data
   const [foodInput, setFoodInput] = useState('');
   const [foodList, setFoodList] = useState<string[]>([]);
+  const [foodImage, setFoodImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
+  const [analysisResults, setAnalysisResults] = useState<any>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   
   // Exercise data
   const [exerciseInput, setExerciseInput] = useState('');
@@ -65,6 +71,154 @@ const DataEntry: React.FC = () => {
     const newFoodList = foodList.filter((_, i) => i !== index);
     setFoodList(newFoodList);
     localStorage.setItem('userFoodData', JSON.stringify(newFoodList));
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFoodImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const analyzeFoodImage = async () => {
+    if (!foodImage) return;
+    
+    setIsAnalyzingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', foodImage);
+      
+      const response = await fetch('http://localhost:8000/api/food/analyze-image', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.upgrade_required) {
+          // Show upgrade message
+          alert(`Vision analysis requires OpenAI Pro plan. ${result.message}`);
+          // Still add the sample items for demonstration
+          if (result.foodItems && result.foodItems.length > 0) {
+            const newFoodList = [...foodList, ...result.foodItems];
+            setFoodList(newFoodList);
+            localStorage.setItem('userFoodData', JSON.stringify(newFoodList));
+            setFoodImage(null);
+            setImagePreview(null);
+          }
+        } else if (result.free_model && result.foodItems && result.foodItems.length > 0) {
+          // Show feedback interface instead of auto-adding
+          setAnalysisResults(result);
+          setShowFeedback(true);
+        } else if (result.foodItems && result.foodItems.length > 0) {
+          // Show feedback interface for other models too
+          setAnalysisResults(result);
+          setShowFeedback(true);
+        }
+      } else {
+        console.error('Failed to analyze image');
+      }
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+    } finally {
+      setIsAnalyzingImage(false);
+    }
+  };
+
+  const clearImage = () => {
+    setFoodImage(null);
+    setImagePreview(null);
+    setAnalysisResults(null);
+    setShowFeedback(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.type.startsWith('image/')) {
+        setFoodImage(file);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setImagePreview(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const confirmAnalysis = () => {
+    if (analysisResults && analysisResults.foodItems) {
+      const newFoodList = [...foodList, ...analysisResults.foodItems];
+      setFoodList(newFoodList);
+      localStorage.setItem('userFoodData', JSON.stringify(newFoodList));
+      clearImage();
+    }
+  };
+
+  const rejectAnalysis = () => {
+    setShowFeedback(false);
+    setAnalysisResults(null);
+    // Keep the image for re-analysis or manual entry
+  };
+
+  const addManualFood = (foodName: string) => {
+    if (foodName.trim()) {
+      // Send feedback to improve AI
+      if (analysisResults && analysisResults.image_info) {
+        sendFeedback(analysisResults.foodItems, foodName.trim());
+      }
+      
+      const newFoodList = [...foodList, foodName.trim()];
+      setFoodList(newFoodList);
+      localStorage.setItem('userFoodData', JSON.stringify(newFoodList));
+      clearImage();
+    }
+  };
+
+  const sendFeedback = async (aiPrediction: string[], userCorrection: string) => {
+    try {
+      const feedbackData = {
+        image_hash: analysisResults?.image_info?.hash || 'unknown',
+        ai_prediction: aiPrediction,
+        user_correction: userCorrection,
+        image_info: analysisResults?.image_info || {}
+      };
+      
+      const response = await fetch('http://localhost:8000/api/food/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedbackData),
+      });
+      
+      if (response.ok) {
+        console.log('✅ Feedback sent successfully - AI will learn from this correction!');
+      } else {
+        console.log('❌ Failed to send feedback');
+      }
+    } catch (error) {
+      console.error('Error sending feedback:', error);
+    }
   };
 
   const addExercise = () => {
@@ -136,19 +290,28 @@ const DataEntry: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen gradient-bg">
-      <Navbar showUserControls={true} />
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed relative"
+      style={{
+        backgroundImage: "url('/data/ExerciseDietPicture.jpg')",
+      }}
+    >
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="relative z-10">
+        <Navbar showUserControls={true} />
+        
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
             <span className="text-4xl mr-3">{user.avatar || '💪'}</span>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-white">
                 Track Your Student Progress, {user.nickname || user.name}! 📊
               </h1>
-              <p className="text-lg text-gray-600 mt-1">
+              <p className="text-lg text-gray-200 mt-1">
                 Log your daily student activities to get personalized study insights
               </p>
             </div>
@@ -204,6 +367,7 @@ const DataEntry: React.FC = () => {
             </div>
             
             <div className="space-y-4">
+              {/* Manual Entry */}
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -219,6 +383,175 @@ const DataEntry: React.FC = () => {
                 >
                   Add
                 </button>
+              </div>
+
+              {/* Divider */}
+              <div className="flex items-center my-4">
+                <div className="flex-1 border-t border-gray-300"></div>
+                <span className="px-3 text-gray-500 text-sm">OR</span>
+                <div className="flex-1 border-t border-gray-300"></div>
+              </div>
+
+              {/* Image Upload */}
+              <div className="space-y-4">
+                <div className="text-center">
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                    <div 
+                      className={`border-2 border-dashed rounded-lg p-6 transition-colors ${
+                        isDragOver 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-300 hover:border-blue-500'
+                      }`}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                    >
+                      <div className="text-4xl mb-2">📸</div>
+                      <p className="text-gray-600 font-medium">
+                        {isDragOver ? 'Drop your food image here' : 'Take a photo of your food'}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Click to upload or drag and drop
+                      </p>
+                      <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-xs text-green-700">
+                        ✅ Free AI food recognition available
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                {/* Image Preview */}
+                {imagePreview && !showFeedback && (
+                  <div className="space-y-3">
+                    <div className="relative">
+                      <img
+                        src={imagePreview}
+                        alt="Food preview"
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={clearImage}
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    <button
+                      onClick={analyzeFoodImage}
+                      disabled={isAnalyzingImage}
+                      className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors font-medium disabled:opacity-50"
+                    >
+                      {isAnalyzingImage ? (
+                        <div className="flex items-center justify-center">
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                          Analyzing Food...
+                        </div>
+                      ) : (
+                        '🔍 Analyze Food Image'
+                      )}
+                    </button>
+                  </div>
+                )}
+
+                {/* Feedback Interface */}
+                {showFeedback && analysisResults && (
+                  <div className="space-y-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-blue-900">AI Analysis Results</h3>
+                      <button
+                        onClick={rejectAnalysis}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm text-blue-700">
+                        AI identified these food items:
+                      </p>
+                      <div className="space-y-2">
+                        {analysisResults.foodItems.map((food: string, index: number) => (
+                          <div key={index} className="flex items-center justify-between bg-white p-2 rounded border">
+                            <span className="font-medium">{food}</span>
+                            <span className="text-xs text-gray-500">
+                              {analysisResults.detailedAnalysis?.[index]?.confidence 
+                                ? `${Math.round(analysisResults.detailedAnalysis[index].confidence * 100)}% confidence`
+                                : 'AI detected'
+                              }
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={confirmAnalysis}
+                        className="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors font-medium"
+                      >
+                        ✅ Add These Foods
+                      </button>
+                      <button
+                        onClick={rejectAnalysis}
+                        className="flex-1 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors font-medium"
+                      >
+                        ❌ Not Correct
+                      </button>
+                    </div>
+
+                    {/* Re-analyze Option */}
+                    <div className="text-center">
+                      <button
+                        onClick={() => {
+                          setShowFeedback(false);
+                          setAnalysisResults(null);
+                          analyzeFoodImage();
+                        }}
+                        className="text-blue-600 hover:text-blue-800 text-sm underline"
+                      >
+                        🔄 Re-analyze Image
+                      </button>
+                    </div>
+
+                    {/* Manual Entry Option */}
+                    <div className="border-t pt-3">
+                      <p className="text-sm text-gray-600 mb-2">Or enter the correct food manually:</p>
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          placeholder="e.g., boiled egg"
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              addManualFood((e.target as HTMLInputElement).value);
+                            }
+                          }}
+                        />
+                        <button
+                          onClick={(e) => {
+                            const input = (e.target as HTMLButtonElement).parentElement?.querySelector('input') as HTMLInputElement;
+                            if (input) {
+                              addManualFood(input.value);
+                            }
+                          }}
+                          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                          Add & Learn
+                        </button>
+                      </div>
+                      <p className="text-xs text-green-600 mt-1">
+                        🧠 AI will learn from your correction to improve future predictions
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
               
               {foodList.length > 0 && (
@@ -422,6 +755,7 @@ const DataEntry: React.FC = () => {
             )}
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

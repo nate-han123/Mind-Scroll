@@ -9,6 +9,7 @@ from agents.enhanced_orchestrator import EnhancedOrchestrator
 from services.user_service import UserService
 from schemas.user import UserCredentials, UserProfile, Gender, ActivityLevel
 from routes.intellectual import router as intellectual_router
+from routes.food import router as food_router
 # MongoDB connection is handled by SyncMongoDBUserService
 
 app = FastAPI(title="Mindscroll AI Health Pipeline", version="1.0.0")
@@ -24,6 +25,9 @@ app.add_middleware(
 
 # Include intellectual routes
 app.include_router(intellectual_router, prefix="/api/intellectual", tags=["intellectual"])
+
+# Include food routes
+app.include_router(food_router, prefix="/api/food", tags=["food"])
 
 # Initialize services
 user_service = UserService()

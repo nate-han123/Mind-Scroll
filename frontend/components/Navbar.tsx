@@ -58,9 +58,16 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center">
             <button
               onClick={handleHomeClick}
-              className="text-2xl font-bold text-gradient hover:text-blue-600 transition-colors cursor-pointer hover:scale-105 transform duration-200"
+              className="flex items-center space-x-3 hover:scale-105 transform duration-200 transition-all"
             >
-              {title}
+              <img 
+                src="/data/Logo.jpg" 
+                alt="Mindscroll Logo" 
+                className="h-10 w-auto"
+              />
+              <span className="text-2xl font-bold text-gradient hover:text-blue-600 transition-colors cursor-pointer">
+                {title}
+              </span>
             </button>
           </div>
           <div className="flex items-center space-x-4">

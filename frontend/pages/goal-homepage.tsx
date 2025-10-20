@@ -106,26 +106,35 @@ const GoalHomepage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen gradient-bg">
-      <Navbar showUserControls={true} />
+    <div 
+      className="min-h-screen bg-cover bg-center bg-fixed relative"
+      style={{
+        backgroundImage: "url('/data/HealthPicture.jpg')",
+      }}
+    >
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-30"></div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="relative z-10">
+        <Navbar showUserControls={true} />
+        
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Welcome Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
             <span className="text-6xl mr-4">{user.avatar || '💪'}</span>
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">
+              <h1 className="text-4xl font-bold text-white">
                 Welcome, {user.nickname || user.name}! 👋
               </h1>
               {user.nickname && (
-                <p className="text-lg text-gray-500 mt-1">
+                <p className="text-lg text-gray-300 mt-1">
                   {user.name} • The {user.nickname}
                 </p>
               )}
             </div>
           </div>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-200">
             Your personalized student health journey starts here
           </p>
         </div>
@@ -313,6 +322,7 @@ const GoalHomepage: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

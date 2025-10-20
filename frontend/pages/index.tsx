@@ -40,10 +40,17 @@ const Home: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
           <div className="mb-8">
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
-              Welcome to{' '}
-              <span className="text-gradient">Mindscroll</span>
-            </h1>
+            <div className="flex items-center justify-center mb-4">
+              <img 
+                src="/data/Logo.jpg" 
+                alt="Mindscroll Logo" 
+                className="h-16 w-auto mr-4"
+              />
+              <h1 className="text-5xl font-bold text-gray-900">
+                Welcome to{' '}
+                <span className="text-gradient">Mindscroll</span>
+              </h1>
+            </div>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Your AI-powered study companion that helps students balance health, learning, and personal growth 
               with personalized daily insights and educational content.

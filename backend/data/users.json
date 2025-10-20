@@ -1670,10 +1670,151 @@
     },
     "progress": {
       "user_id": "142353a7-c78a-470c-b188-5370e8bb0ed4",
-      "entries": [],
-      "current_streak": 0,
-      "total_entries": 0,
-      "last_entry_date": null
+      "entries": [
+        {
+          "date": "2025-10-16",
+          "meals": [
+            "egg white"
+          ],
+          "exercises": [
+            "30 sets of pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2,
+            "water_intake": 10
+          },
+          "created_at": "2025-10-15 15:06:21.369210"
+        },
+        {
+          "date": "2025-10-16",
+          "meals": [
+            "egg white"
+          ],
+          "exercises": [
+            "30 sets of pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2,
+            "water_intake": 10
+          },
+          "created_at": "2025-10-15 15:06:21.369210"
+        },
+        {
+          "date": "2025-10-16",
+          "meals": [
+            "egg white"
+          ],
+          "exercises": [
+            "30 sets of pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2,
+            "water_intake": 10
+          },
+          "created_at": "2025-10-15 15:06:21.369210"
+        },
+        {
+          "date": "2025-10-17",
+          "meals": [
+            "egg white"
+          ],
+          "exercises": [
+            "30 sets of pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2,
+            "water_intake": 10
+          },
+          "created_at": "2025-10-15 15:06:21.369210"
+        },
+        {
+          "date": "2025-10-17",
+          "meals": [
+            "egg white"
+          ],
+          "exercises": [
+            "30 sets of pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2,
+            "water_intake": 10
+          },
+          "created_at": "2025-10-15 15:06:21.369210"
+        },
+        {
+          "date": "2025-10-17",
+          "meals": [
+            "egg white"
+          ],
+          "exercises": [
+            "30 sets of pushups"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 3,
+            "stress_level": 2,
+            "water_intake": 10
+          },
+          "created_at": "2025-10-15 15:06:21.369210"
+        },
+        {
+          "date": "2025-10-19",
+          "meals": [
+            "boiled egg",
+            "vegetables",
+            "bread or meat"
+          ],
+          "exercises": [
+            "jogging"
+          ],
+          "lifestyle": {
+            "sleep_hours": 8,
+            "screen_time": 6,
+            "stress_level": 5,
+            "water_intake": 8
+          },
+          "created_at": "2025-10-19 09:26:08.028790"
+        },
+        {
+          "date": "2025-10-19",
+          "meals": [
+            "boiled egg",
+            "vegetables",
+            "bread or meat"
+          ],
+          "exercises": [
+            "jogging"
+          ],
+          "lifestyle": {},
+          "created_at": "2025-10-19 09:26:08.028790"
+        },
+        {
+          "date": "2025-10-19",
+          "meals": [
+            "boiled egg",
+            "vegetables",
+            "bread or meat"
+          ],
+          "exercises": [
+            "jogging"
+          ],
+          "lifestyle": {},
+          "created_at": "2025-10-19 09:26:08.028790"
+        }
+      ],
+      "current_streak": 1,
+      "total_entries": 9,
+      "last_entry_date": "2025-10-19"
     },
     "is_active": true,
     "created_at": "2025-10-15 13:15:41.105819",

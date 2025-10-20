@@ -162,9 +162,16 @@ const EssentialSignup: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Join Mindscroll for Students
-          </h1>
+          <div className="flex items-center justify-center mb-4">
+            <img 
+              src="/data/Logo.jpg" 
+              alt="Mindscroll Logo" 
+              className="h-12 w-auto mr-3"
+            />
+            <h1 className="text-3xl font-bold text-gray-900">
+              Join Mindscroll for Students
+            </h1>
+          </div>
           <p className="text-lg text-gray-600">
             Get personalized study and health goals powered by AI for your student journey
           </p>
