@@ -42,8 +42,11 @@ backend/data/*.json
 # ===========================================
 # Development Files
 # ===========================================
-start.sh
 CLEANUP_SUMMARY.md
+
+# Railway Deployment
+# ===========================================
+# Keep railway.json, railway.toml, Procfile, and start.sh for deployment
 
 # ===========================================
 # OS Files

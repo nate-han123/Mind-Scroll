@@ -14,6 +14,11 @@ from routes.food import router as food_router
 
 app = FastAPI(title="Mindscroll AI Health Pipeline", version="1.0.0")
 
+# Health check endpoint for Railway
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "service": "Mindscroll Backend"}
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
