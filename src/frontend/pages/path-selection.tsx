@@ -141,7 +141,7 @@ const PathSelection: React.FC = () => {
           <div className="card hover:shadow-xl transition-all duration-300 cursor-pointer group" onClick={() => handlePathSelection('intellectual')}>
             <div className="text-center p-8">
               <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">📚</div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Study Path</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Knowledge Feed</h2>
               <p className="text-gray-600 mb-6 text-lg">
                 Explore educational content, discover new subjects, and expand your academic knowledge
               </p>

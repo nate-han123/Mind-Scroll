@@ -4,6 +4,19 @@ from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import json
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Validate required environment variables
+required_env_vars = ["OPENAI_API_KEY"]
+missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+
+if missing_vars:
+    print(f"⚠️  Warning: Missing environment variables: {missing_vars}")
+    print("   Some features may not work properly on Railway")
+    print("   Set these in Railway Dashboard > Variables tab")
 from agents.orchestrator import Orchestrator
 from agents.enhanced_orchestrator import EnhancedOrchestrator
 from services.user_service import UserService
