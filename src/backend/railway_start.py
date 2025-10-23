@@ -12,22 +12,22 @@ def main():
     print("🚀 Starting Mindscroll backend on Railway...")
     
     # Check environment variables
-    openai_key = os.getenv('OPENAI_API_KEY')
-    youtube_key = os.getenv('YOUTUBE_API_KEY')
+    # openai_key = os.getenv('OPENAI_API_KEY')
+    # youtube_key = os.getenv('YOUTUBE_API_KEY')
     
-    if not openai_key:
-        print("⚠️  Warning: OPENAI_API_KEY not set - AI features will not work")
-    else:
-        print("✅ OpenAI API key found")
+    # if not openai_key:
+    #     print("⚠️  Warning: OPENAI_API_KEY not set - AI features will not work")
+    # else:
+    #     print("✅ OpenAI API key found")
         
-    if not youtube_key:
-        print("⚠️  Warning: YOUTUBE_API_KEY not set - intellectual content will use fallback data")
-    else:
-        print("✅ YouTube API key found")
+    # if not youtube_key:
+    #     print("⚠️  Warning: YOUTUBE_API_KEY not set - intellectual content will use fallback data")
+    # else:
+    #     print("✅ YouTube API key found")
     
-    # Set environment variables
-    port = os.getenv('PORT', '8000')
-    host = '0.0.0.0'
+    # # Set environment variables
+    # port = os.getenv('PORT', '8000')
+    # host = '0.0.0.0'
     
     print(f"📡 Starting server on {host}:{port}")
     print(f"🌐 Health check available at: http://{host}:{port}/health")

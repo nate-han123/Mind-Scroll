@@ -4,9 +4,9 @@ nixPkgs = ["python311"]
 [phases.install]
 cmds = [
   "pip install --upgrade pip",
-  "pip install -r src/backend/requirements.txt"
+  "pip install -r requirements.txt"
 ]
 
 [start]
-cmd = "cd src/backend && python railway_start.py"
+cmd = "python railway_start.py"
 
