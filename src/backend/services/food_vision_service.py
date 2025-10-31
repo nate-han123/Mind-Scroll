@@ -15,7 +15,7 @@ class FreeFoodVisionService:
         """Initialize the free food recognition service"""
         self.model_name = "simple-food-analyzer"
         self.food_database = self._load_food_database()
-        print("✅ Simple food analyzer initialized")
+        print("[INFO] Simple food analyzer initialized")
     
     def _load_food_database(self):
         """Load a simple food recognition database"""

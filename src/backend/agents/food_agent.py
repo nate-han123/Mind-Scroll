@@ -1,7 +1,7 @@
 from schemas.summary import FoodAgentOutput
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema import HumanMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage
 import os
 from dotenv import load_dotenv
 

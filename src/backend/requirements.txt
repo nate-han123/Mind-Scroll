@@ -4,16 +4,20 @@ fastapi
 uvicorn[standard]
 python-multipart
 
-# Pydantic v2 stack (works on 3.10)
+# Pydantic v2 stack
 pydantic[email]
-langchain
-langchain-openai
-openai
+
+langchain>=0.1.0
+langchain-openai>=0.0.5
+langchain-core>=0.1.0
+openai>=1.0.0
 httpx
 
 transformers
 torch
 Pillow
 
-motor
-pymongo
+# MongoDB
+motor==3.7.1
+pymongo>=4.9,<5
+dnspython>=2.0

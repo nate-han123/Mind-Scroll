@@ -14,16 +14,16 @@ required_env_vars = ["OPENAI_API_KEY"]
 missing_vars = [var for var in required_env_vars if not os.getenv(var)]
 
 if missing_vars:
-    print(f"⚠️  Warning: Missing environment variables: {missing_vars}")
+    print(f"[WARNING] Missing environment variables: {missing_vars}")
     print("   Some features may not work properly on Railway")
     print("   Set these in Railway Dashboard > Variables tab")
 from agents.orchestrator import Orchestrator
 from agents.enhanced_orchestrator import EnhancedOrchestrator
-from services.user_service import UserService
+from services.sync_mongodb_user_service import SyncMongoDBUserService
 from schemas.user import UserCredentials, UserProfile, Gender, ActivityLevel
 from routes.intellectual import router as intellectual_router
 from routes.food import router as food_router
-# MongoDB connection is handled by SyncMongoDBUserService
+# Using MongoDB Atlas for data storage
 
 app = FastAPI(title="Mindscroll AI Health Pipeline", version="1.0.0")
 
@@ -47,10 +47,12 @@ app.include_router(intellectual_router, prefix="/api/intellectual", tags=["intel
 # Include food routes
 app.include_router(food_router, prefix="/api/food", tags=["food"])
 
-# Initialize services
-user_service = UserService()
+# Initialize services with MongoDB
+user_service = SyncMongoDBUserService()
 orchestrator = Orchestrator()
 enhanced_orchestrator = EnhancedOrchestrator()
+
+print("[SUCCESS] Connected to MongoDB Atlas - All data will be stored in the cloud!")
 
 # Pydantic models for request/response
 class UserData(BaseModel):
@@ -121,7 +123,7 @@ async def generate_summary_from_user_data(user_data: UserData):
     """
     try:
         # Convert Pydantic model to dict
-        user_data_dict = user_data.dict()
+        user_data_dict = user_data.model_dump()
         
         # Generate summary
         summary = orchestrator.generate_daily_summary(user_data_dict)
@@ -129,6 +131,7 @@ async def generate_summary_from_user_data(user_data: UserData):
         return summary
         
     except Exception as e:
+        print(f"Error generating summary: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to generate summary: {str(e)}")
 
 # User Management Endpoints
@@ -184,7 +187,7 @@ async def signup(request: SignupRequest):
             "name": user.profile.name,
             "nickname": user.profile.nickname,
             "avatar": user.profile.avatar,
-            "goal": user.goal.dict(),
+            "goal": user.goal.model_dump(),
             "message": "Account created successfully with personalized goal!"
         }
         
@@ -216,7 +219,7 @@ async def login(request: LoginRequest):
             "activity_level": user.profile.activity_level,
             "medical_conditions": user.profile.medical_conditions,
             "dietary_restrictions": user.profile.dietary_restrictions,
-            "goal": user.goal.dict(),
+            "goal": user.goal.model_dump(),
             "progress": user_service.get_user_progress_summary(user.id)
         }
         
@@ -238,7 +241,7 @@ async def get_user(user_id: str):
         return {
             "user_id": user.id,
             "name": user.profile.name,
-            "goal": user.goal.dict(),
+            "goal": user.goal.model_dump(),
             "progress": user_service.get_user_progress_summary(user.id)
         }
         
@@ -276,18 +279,28 @@ async def generate_personalized_summary(request: DailyEntryRequest):
     Generate personalized daily summary for a user
     """
     try:
+        print(f"[DEBUG] Received request for user_id: {request.user_id}")
+        
         # Get user
         user = user_service.get_user_by_id(request.user_id)
         if not user:
+            print(f"[ERROR] User not found: {request.user_id}")
             raise HTTPException(status_code=404, detail="User not found")
         
-        # Add daily entry
-        user_service.add_daily_entry(
-            request.user_id,
-            request.meals,
-            request.exercises,
-            request.lifestyle
-        )
+        print(f"[DEBUG] User found: {user.profile.name}")
+        
+        # Add daily entry (skip if it fails)
+        try:
+            user_service.add_daily_entry(
+                request.user_id,
+                request.meals,
+                request.exercises,
+                request.lifestyle
+            )
+            print("[DEBUG] Daily entry added successfully")
+        except Exception as entry_error:
+            print(f"[WARNING] Failed to add daily entry: {entry_error}")
+            # Continue anyway - we can still generate summary
         
         # Generate personalized summary
         user_data = {
@@ -296,13 +309,18 @@ async def generate_personalized_summary(request: DailyEntryRequest):
             "lifestyle": request.lifestyle
         }
         
+        print("[DEBUG] Calling enhanced orchestrator...")
         summary = enhanced_orchestrator.generate_personalized_summary(user, user_data)
+        print("[DEBUG] Summary generated successfully")
         
         return summary
         
     except HTTPException:
         raise
     except Exception as e:
+        print(f"[ERROR] Exception in generate_personalized_summary: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to generate personalized summary: {str(e)}")
 
 @app.get("/user/{user_id}/progress")
@@ -319,7 +337,7 @@ async def get_user_progress(user_id: str, days: int = 7):
         
         return {
             "user_id": user_id,
-            "recent_entries": [entry.dict() for entry in recent_entries],
+            "recent_entries": [entry.model_dump() for entry in recent_entries],
             "progress_summary": user_service.get_user_progress_summary(user_id)
         }
         

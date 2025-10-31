@@ -3,7 +3,7 @@ from datetime import datetime
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-from models.user import User, UserCredentials, UserProfile, UserGoal, UserProgress, DailyEntry, GoalType, ActivityLevel, Gender
+from schemas.user import User, UserCredentials, UserProfile, UserGoal, UserProgress, DailyEntry, GoalType, ActivityLevel, Gender
 from agents.goal_generator import GoalGenerator
 import uuid
 
@@ -27,24 +27,36 @@ class SyncMongoDBUserService:
         
         # Create user progress
         progress = UserProgress(
+            entries=[],
             total_entries=0,
             current_streak=0,
-            last_entry_date=None,
-            entries=[]
+            last_entry_date=None
         )
         
-        # Create user
+        # Create user dict for MongoDB (store as dicts, not nested Pydantic models)
+        user_dict = {
+            "id": user_id,
+            "user_id": user_id,  # For backward compatibility
+            "credentials": credentials.model_dump(mode='json'),
+            "profile": profile.model_dump(mode='json'),
+            "goal": goal.model_dump(mode='json'),
+            "progress": progress.model_dump(mode='json'),
+            "is_active": True,
+            "created_at": datetime.now().isoformat(),
+            "updated_at": datetime.now().isoformat()
+        }
+        
+        # Insert into MongoDB
+        result = self.users_collection.insert_one(user_dict)
+        
+        # Return User object
         user = User(
-            user_id=user_id,
+            id=user_id,
             credentials=credentials,
             profile=profile,
             goal=goal,
             progress=progress
         )
-        
-        # Insert into MongoDB
-        result = self.users_collection.insert_one(user.dict())
-        user.id = result.inserted_id
         
         return user
     
@@ -52,14 +64,20 @@ class SyncMongoDBUserService:
         """Get user by user_id"""
         user_data = self.users_collection.find_one({"user_id": user_id})
         if user_data:
-            return User(**user_data)
+            # Remove MongoDB _id field
+            user_data.pop('_id', None)
+            # Reconstruct User from dict data
+            return User.model_validate(user_data)
         return None
     
     def get_user_by_email(self, email: str) -> Optional[User]:
         """Get user by email"""
         user_data = self.users_collection.find_one({"credentials.email": email})
         if user_data:
-            return User(**user_data)
+            # Remove MongoDB _id field
+            user_data.pop('_id', None)
+            # Reconstruct User from dict data
+            return User.model_validate(user_data)
         return None
     
     def authenticate_user(self, email: str, password: str) -> Optional[User]:
@@ -90,9 +108,13 @@ class SyncMongoDBUserService:
     
     def save_user(self, user: User):
         """Save user to MongoDB"""
+        # Use Pydantic v2 model_dump() method
+        user_dict = user.model_dump(mode='json')
+        user_dict['user_id'] = user.id if hasattr(user, 'id') else user_dict.get('id')
+        
         self.users_collection.replace_one(
-            {"user_id": user.user_id},
-            user.dict(),
+            {"user_id": user_dict['user_id']},
+            user_dict,
             upsert=True
         )
     
@@ -109,8 +131,10 @@ class SyncMongoDBUserService:
         # Update streak
         self._update_streak(user)
         
-        # Save updated user
-        self.save_user(user)
+        # Save updated user with proper dict conversion (Pydantic v2)
+        user_dict = user.model_dump(mode='json')
+        user_dict['user_id'] = user.id if hasattr(user, 'id') else user_dict.get('id')
+        self.users_collection.replace_one({"user_id": user.user_id}, user_dict, upsert=True)
         return user
     
     def _update_streak(self, user: User):
@@ -157,6 +181,6 @@ class SyncMongoDBUserService:
             "total_entries": user.progress.total_entries,
             "current_streak": user.progress.current_streak,
             "last_entry_date": user.progress.last_entry_date,
-            "goal": user.goal.dict(),
-            "profile": user.profile.dict()
+            "goal": user.goal.model_dump(mode='json'),
+            "profile": user.profile.model_dump(mode='json')
         }

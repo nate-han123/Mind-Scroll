@@ -13,7 +13,7 @@ class FeedbackLearningService:
         """Initialize the feedback learning service"""
         self.feedback_file = "backend/data/feedback_learning.json"
         self.feedback_data = self._load_feedback_data()
-        print("✅ Feedback learning service initialized")
+        print("[INFO] Feedback learning service initialized")
     
     def _load_feedback_data(self) -> Dict[str, Any]:
         """Load existing feedback data"""

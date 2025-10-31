@@ -77,8 +77,7 @@ class DailyEntry(BaseModel):
     created_at: datetime = datetime.now()
 
 class UserProgress(BaseModel):
-    user_id: str
-    entries: List[DailyEntry]
+    entries: List[DailyEntry] = []
     current_streak: int = 0
     total_entries: int = 0
     last_entry_date: Optional[str] = None
@@ -92,3 +91,10 @@ class User(BaseModel):
     is_active: bool = True
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
+    
+    model_config = {"arbitrary_types_allowed": True}
+    
+    @property
+    def user_id(self):
+        """Alias for id field for backward compatibility"""
+        return self.id
