@@ -59,9 +59,9 @@
 3. Choose **"Connect your application"**
 4. Driver: **Python** 
 5. Version: **3.11 or later** (your project uses Python 3.11)
-6. Copy the connection string:
+6. Copy the connection string (example format):
    ```
-   mongodb+srv://mindscroll_admin:<password>@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+   mongodb+srv://USERNAME:PASSWORD@cluster0.XXXXX.mongodb.net/?retryWrites=true&w=majority
    ```
 
 ---
@@ -79,9 +79,9 @@
 - Replace `xxxxx` with your cluster ID
 - Add `/mindscroll` after `.net/` (this is your database name)
 
-**Example:**
+**Example Format:**
 ```env
-MONGODB_URL=mongodb+srv://mindscroll_admin:K8x9mQ2pL5vN3wR7@cluster0.abc123.mongodb.net/mindscroll?retryWrites=true&w=majority
+MONGODB_URL=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/mindscroll?retryWrites=true&w=majority
 ```
 
 ---
@@ -186,7 +186,7 @@ When deploying to Railway:
 2. Click **"Variables"** tab
 3. Add this variable:
    ```
-   MONGODB_URL=mongodb+srv://mindscroll_admin:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/mindscroll?retryWrites=true&w=majority
+   MONGODB_URL=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/mindscroll?retryWrites=true&w=majority
    ```
 4. Save and redeploy
 

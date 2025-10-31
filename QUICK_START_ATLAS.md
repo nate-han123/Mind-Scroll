@@ -30,9 +30,9 @@ cd src/backend
 Create `.env` file with this content:
 
 ```env
-MONGODB_URL=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/mindscroll?retryWrites=true&w=majority
-OPENAI_API_KEY=your_openai_key_here
-YOUTUBE_API_KEY=your_youtube_key_here
+MONGODB_URL=mongodb+srv://YOUR-USERNAME:YOUR-PASSWORD@YOUR-CLUSTER.mongodb.net/mindscroll?retryWrites=true&w=majority
+OPENAI_API_KEY=your-openai-key-here
+YOUTUBE_API_KEY=your-youtube-key-here
 ```
 
 **Replace:**

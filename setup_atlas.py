@@ -73,8 +73,8 @@ def print_instructions():
     print(f"    → Open: src/backend/.env")
     print("    → Update MONGODB_URL with your connection string")
     print("    → Add /mindscroll at the end")
-    print("    → Example:")
-    print("      MONGODB_URL=mongodb+srv://user:pass@cluster.net/mindscroll?retryWrites=true&w=majority")
+    print("    → Example Format:")
+    print("      MONGODB_URL=mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/mindscroll?retryWrites=true&w=majority")
     print()
     
     print("6️⃣  TEST CONNECTION")
