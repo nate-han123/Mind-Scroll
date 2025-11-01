@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
         }
         
         // Use personalized summary API
-        const response = await fetch('http://localhost:8000/generate-personalized-summary', {
+        const response = await fetch('https://mind-scroll-production.up.railway.app/generate-personalized-summary', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

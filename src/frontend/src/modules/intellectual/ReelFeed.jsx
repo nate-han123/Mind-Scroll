@@ -25,7 +25,7 @@ const ReelFeed = ({ user, selectedInterests, selectedDuration, onBackToInterests
     setError(null);
     try {
       const topics = selectedInterests.join(',');
-      const response = await fetch(`http://localhost:8000/api/intellectual/recommendations?topics=${topics}&duration=${selectedDuration}`);
+      const response = await fetch(`https://mind-scroll-production.up.railway.app/api/intellectual/recommendations?topics=${topics}&duration=${selectedDuration}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -85,7 +85,7 @@ const ReelFeed = ({ user, selectedInterests, selectedDuration, onBackToInterests
     setError(null);
     try {
       const topics = selectedInterests.join(',');
-      const response = await fetch(`http://localhost:8000/api/intellectual/recommendations?topics=${topics}`);
+      const response = await fetch(`https://mind-scroll-production.up.railway.app/api/intellectual/recommendations?topics=${topics}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

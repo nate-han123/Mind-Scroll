@@ -27,9 +27,12 @@ export interface DailySummary {
   orchestrator_summary: OrchestratorSummary;
 }
 
+// Railway Backend URL
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://mind-scroll-production.up.railway.app";
+
 export async function fetchSummary(): Promise<DailySummary> {
   try {
-    const res = await fetch("http://localhost:8000/generate-summary");
+    const res = await fetch(`${API_BASE_URL}/generate-summary`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
@@ -46,7 +49,7 @@ export async function fetchSummaryFromUserData(userData: {
   lifestyle: any;
 }): Promise<DailySummary> {
   try {
-    const res = await fetch("http://localhost:8000/generate-summary-from-user-data", {
+    const res = await fetch(`${API_BASE_URL}/generate-summary-from-user-data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

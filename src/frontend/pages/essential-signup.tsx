@@ -69,7 +69,7 @@ const EssentialSignup: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/auth/signup', {
+      const response = await fetch('https://mind-scroll-production.up.railway.app/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -93,7 +93,7 @@ const DataEntry: React.FC = () => {
       const formData = new FormData();
       formData.append('image', foodImage);
       
-      const response = await fetch('http://localhost:8000/api/food/analyze-image', {
+      const response = await fetch('https://mind-scroll-production.up.railway.app/api/food/analyze-image', {
         method: 'POST',
         body: formData,
       });
@@ -203,7 +203,7 @@ const DataEntry: React.FC = () => {
         image_info: analysisResults?.image_info || {}
       };
       
-      const response = await fetch('http://localhost:8000/api/food/feedback', {
+      const response = await fetch('https://mind-scroll-production.up.railway.app/api/food/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -249,7 +249,7 @@ const DataEntry: React.FC = () => {
   const runAIAnalysis = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/generate-personalized-summary', {
+      const response = await fetch('https://mind-scroll-production.up.railway.app/generate-personalized-summary', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

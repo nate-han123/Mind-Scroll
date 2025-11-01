@@ -189,7 +189,7 @@ const ComprehensiveProfile: React.FC = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch('http://localhost:8000/user/profile', {
+      const response = await fetch('https://mind-scroll-production.up.railway.app/user/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
