@@ -81,9 +81,9 @@ const Dashboard: React.FC = () => {
         console.error('Error loading summary:', err);
         // Set fallback data when API fails
         setSummary({
-          food_agent_summary: { summary: "Unable to analyze food data", score: 0, recommendations: [] },
-          exercise_agent_summary: { summary: "Unable to analyze exercise data", score: 0, recommendations: [] },
-          lifestyle_agent_summary: { summary: "Unable to analyze lifestyle data", score: 0, recommendations: [] },
+          food_agent: { calories: 0, nutrition_score: 0, comment: "Unable to analyze food data" },
+          exercise_agent: { calories_burned: 0, note: "Unable to analyze exercise data" },
+          lifestyle_agent: { wellness_score: 0, advice: "Unable to analyze lifestyle data" },
           orchestrator_summary: { 
             summary: "Unable to generate personalized summary. Please try again later.", 
             overall_health_score: 0,
@@ -240,27 +240,9 @@ const Dashboard: React.FC = () => {
           <AgentOutput agent="lifestyle" data={summary.lifestyle_agent || {}} />
         </div>
 
-        {/* Goal Progress */}
-        {summary.goal_alignment && (
-          <div className="card bg-gradient-to-r from-green-50 to-blue-50 border-green-200 mb-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-              <span className="text-2xl mr-3">🎯</span>
-              Goal Progress
-            </h3>
-            <p className="text-gray-700 leading-relaxed">{summary.goal_alignment}</p>
-          </div>
-        )}
-
-        {/* Motivation */}
-        {summary.orchestrator_summary.motivation && (
-          <div className="card bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200 mb-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-              <span className="text-2xl mr-3">💪</span>
-              Daily Motivation
-            </h3>
-            <p className="text-gray-700 leading-relaxed">{summary.orchestrator_summary.motivation}</p>
-          </div>
-        )}
+        {/* Goal Progress - Removed as not in API response */}
+        
+        {/* Motivation - Removed as not in API response */}
 
         {/* Recommendations */}
         {(summary.orchestrator_summary.recommendations && summary.orchestrator_summary.recommendations.length > 0) && (
