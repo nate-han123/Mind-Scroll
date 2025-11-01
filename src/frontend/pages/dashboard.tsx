@@ -38,9 +38,9 @@ const Dashboard: React.FC = () => {
         // If no data exists, show empty state instead of redirecting
         if (foodData.length === 0 && exerciseData.length === 0 && Object.keys(lifestyleData).length === 0) {
           setSummary({
-            food_agent_summary: { summary: "No food data logged yet", score: 0, recommendations: [] },
-            exercise_agent_summary: { summary: "No exercise data logged yet", score: 0, recommendations: [] },
-            lifestyle_agent_summary: { summary: "No lifestyle data logged yet", score: 0, recommendations: [] },
+            food_agent: { calories: 0, nutrition_score: 0, comment: "No food data logged yet" },
+            exercise_agent: { calories_burned: 0, note: "No exercise data logged yet" },
+            lifestyle_agent: { wellness_score: 0, advice: "No lifestyle data logged yet" },
             orchestrator_summary: { 
               summary: "Welcome! Start tracking your meals, exercises, and lifestyle activities to get personalized insights.", 
               overall_health_score: 0,
