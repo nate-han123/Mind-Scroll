@@ -2,6 +2,14 @@
 
 A comprehensive student-focused health and learning platform that uses AI to help students balance their academic life with physical wellness. Features personalized health goals, educational content, and intelligent insights tailored specifically for student lifestyles.
 
+## 🌐 Live Demo
+
+**🚀 Deployed Application:** [https://mind-scroll-eta.vercel.app/](https://mind-scroll-eta.vercel.app/)
+
+Try it now! Create an account and experience AI-powered health tracking and personalized recommendations.
+
+---
+
 ## 🎯 Key Features
 
 ### 🎓 Student-Focused Design

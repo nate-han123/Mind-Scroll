@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind-Scroll Architecture Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 3px solid #667eea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        nav button {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        nav button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        section {
+            margin-bottom: 60px;
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+        }
+        
+        .diagram-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        
+        .feature-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-card ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .info-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            nav {
+                flex-direction: column;
+            }
+            
+            nav button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Mind-Scroll Architecture</h1>
+            <p>AI-Powered Student Health & Learning Platform</p>
+        </header>
+        
+        <nav>
+            <button onclick="scrollToSection('overview')">📊 System Overview</button>
+            <button onclick="scrollToSection('authentication')">🔐 Authentication</button>
+            <button onclick="scrollToSection('health')">💪 Health Path</button>
+            <button onclick="scrollToSection('study')">📚 Study Path</button>
+            <button onclick="scrollToSection('mobile')">📱 Mobile App</button>
+            <button onclick="scrollToSection('dataflow')">🔄 Data Flow</button>
+            <button onclick="scrollToSection('files')">🗂️ File Structure</button>
+            <button onclick="scrollToSection('tech')">⚙️ Tech Stack</button>
+        </nav>
+        
+        <div class="content">
+            <!-- System Overview -->
+            <section id="overview">
+                <h2>📊 System Architecture Overview</h2>
+                <p>Mind-Scroll is a comprehensive full-stack application with AI-powered health tracking and educational content delivery.</p>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        WEB[Web Frontend<br/>Next.js/React]
+        MOBILE[Mobile App<br/>React Native/Expo]
+    end
+    
+    subgraph "API Gateway"
+        FASTAPI[FastAPI Backend<br/>main.py]
+    end
+    
+    subgraph "AI Processing Layer"
+        ORCHESTRATOR[Enhanced Orchestrator]
+        FOODAGENT[Food Agent]
+        EXERCISEAGENT[Exercise Agent]
+        LIFESTYLEAGENT[Lifestyle Agent]
+        GOALGEN[Goal Generator]
+        GPT[OpenAI GPT-4o-mini]
+    end
+    
+    subgraph "Data Layer"
+        MONGODB[(MongoDB Atlas)]
+        LOCALSTORAGE[LocalStorage]
+    end
+    
+    WEB --> FASTAPI
+    MOBILE --> FASTAPI
+    FASTAPI --> ORCHESTRATOR
+    ORCHESTRATOR --> FOODAGENT
+    ORCHESTRATOR --> EXERCISEAGENT
+    ORCHESTRATOR --> LIFESTYLEAGENT
+    FOODAGENT --> GPT
+    EXERCISEAGENT --> GPT
+    LIFESTYLEAGENT --> GPT
+    GOALGEN --> GPT
+    FASTAPI --> MONGODB
+    WEB --> LOCALSTORAGE
+                    </div>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🎯 Core Features</h4>
+                        <ul>
+                            <li>AI-Generated Health Goals</li>
+                            <li>Personalized Daily Analysis</li>
+                            <li>Educational Content Feed</li>
+                            <li>Progress Tracking</li>
+                            <li>Dual Path System</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🤖 AI Capabilities</h4>
+                        <ul>
+                            <li>Natural Language Processing</li>
+                            <li>Personalized Recommendations</li>
+                            <li>Goal Alignment Analysis</li>
+                            <li>Food Image Recognition</li>
+                            <li>Motivational Messaging</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🌐 Platform Support</h4>
+                        <ul>
+                            <li>Responsive Web Application</li>
+                            <li>Native Mobile Apps (iOS/Android)</li>
+                            <li>RESTful API</li>
+                            <li>Cloud Database</li>
+                            <li>Cross-Platform Sync</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Authentication -->
+            <section id="authentication">
+                <h2>🔐 User Authentication & Management</h2>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph LR
+    A[User Registration] --> B[main.py<br/>/auth/signup]
+    B --> C[User Service]
+    C --> D[Goal Generator]
+    D --> E[AI-Generated Goal]
+    E --> F[Personalization]
+    F --> G[Nickname & Avatar]
+    
+    H[User Login] --> I[main.py<br/>/auth/login]
+    I --> C
+    C --> J[User Profile Data]
+    
+    style E fill:#ffe1e1
+    style G fill:#ffe1e1
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4>🔑 Key Files</h4>
+                    <p><strong>Backend:</strong> main.py (lines 138-229), mongodb_user_service.py, goal_generator.py, personalization_generator.py</p>
+                    <p><strong>Frontend:</strong> signup.tsx, login.tsx, profile.tsx</p>
+                    <p><strong>Mobile:</strong> app/login.tsx, app/signup.tsx</p>
+                </div>
+            </section>
+            
+            <!-- Health Path -->
+            <section id="health">
+                <h2>💪 Health Path - Daily Tracking & Analysis</h2>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    A[User Enters Daily Data] --> B[data-entry.tsx]
+    B --> C[POST /generate-personalized-summary]
+    C --> D[Enhanced Orchestrator]
+    
+    D --> E[Food Agent]
+    D --> F[Exercise Agent]
+    D --> G[Lifestyle Agent]
+    
+    E --> H[GPT-4o-mini<br/>Nutrition Analysis]
+    F --> I[GPT-4o-mini<br/>Exercise Analysis]
+    G --> J[GPT-4o-mini<br/>Wellness Analysis]
+    
+    H --> K[Orchestrator Summary]
+    I --> K
+    J --> K
+    
+    K --> L[Goal Alignment]
+    L --> M[Personalized Recommendations]
+    M --> N[Dashboard Display]
+    
+    style H fill:#ffe1e1
+    style I fill:#ffe1e1
+    style J fill:#ffe1e1
+                    </div>
+                </div>
+                
+                <h3>Agent Responsibilities</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Agent</th>
+                            <th>File</th>
+                            <th>Analyzes</th>
+                            <th>Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🍎 Food Agent</td>
+                            <td>food_agent.py</td>
+                            <td>Meals, calories, nutrition</td>
+                            <td>Nutrition score (0-10), calorie count, comments</td>
+                        </tr>
+                        <tr>
+                            <td>💪 Exercise Agent</td>
+                            <td>exercise_agent.py</td>
+                            <td>Physical activities, duration</td>
+                            <td>Calories burned, exercise quality, tips</td>
+                        </tr>
+                        <tr>
+                            <td>🌱 Lifestyle Agent</td>
+                            <td>lifestyle_agent.py</td>
+                            <td>Sleep, stress, screen time</td>
+                            <td>Wellness score (0-10), lifestyle advice</td>
+                        </tr>
+                        <tr>
+                            <td>🎯 Orchestrator</td>
+                            <td>enhanced_orchestrator.py</td>
+                            <td>All agent outputs + user goals</td>
+                            <td>Overall score, summary, recommendations, goal progress</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Study Path -->
+            <section id="study">
+                <h2>📚 Study Path - Educational Content</h2>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    A[User Selects Interests] --> B[intellectual.tsx]
+    B --> C[GET /api/intellectual/recommendations]
+    C --> D[routes/intellectual.py]
+    
+    D --> E{YouTube API Available?}
+    E -->|Yes| F[Fetch Educational Videos]
+    E -->|No| G[Fallback Content]
+    
+    F --> H[Video Recommendations]
+    G --> H
+    
+    H --> I[ReelFeed.jsx]
+    I --> J[VerticalVideoFeed.jsx]
+    J --> K[User Watches Content]
+    
+    style E fill:#ffe1e1
+    style K fill:#e1ffe1
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h4>📝 Study Path Components</h4>
+                    <p><strong>Interest Selection:</strong> InterestSelector.jsx - Choose academic subjects</p>
+                    <p><strong>Duration Preference:</strong> DurationSelector.jsx - Set video length (5-10, 10-20, 20+ mins)</p>
+                    <p><strong>Content Feed:</strong> ReelFeed.jsx - TikTok-style scrollable video feed</p>
+                    <p><strong>Video Player:</strong> VerticalVideoFeed.jsx - Embedded YouTube player</p>
+                    <p><strong>Fallback System:</strong> fallbackData.js - Demo content when YouTube unavailable</p>
+                </div>
+            </section>
+            
+            <!-- Mobile App -->
+            <section id="mobile">
+                <h2>📱 Mobile App Architecture</h2>
+                
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    A[App Root<br/>_layout.tsx]
+    
+    B[Landing<br/>index.tsx]
+    C[Login<br/>login.tsx]
+    D[Signup<br/>signup.tsx]
+    
+    E[Tab Navigation<br/>tabs/_layout.tsx]
+    
+    F[Dashboard<br/>tabs/dashboard.tsx]
+    G[Track<br/>tabs/track.tsx]
+    H[Analysis<br/>tabs/analysis.tsx]
+    I[Profile<br/>tabs/profile.tsx]
+    
+    J[API Config<br/>config/api.ts]
+    
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    
+    E --> F
+    E --> G
+    E --> H
+    E --> I
+    
+    F --> J
+    G --> J
+    H --> J
+    I --> J
+    
+    style A fill:#e1e1ff
+    style E fill:#e1ffe1
+                    </div>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>📱 Mobile Features</h4>
+                        <ul>
+                            <li>Native Navigation (Expo Router)</li>
+                            <li>Tab-Based Interface</li>
+                            <li>AsyncStorage for Local Data</li>
+                            <li>Same API as Web</li>
+                            <li>Cross-Platform (iOS/Android)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📂 Mobile File Structure</h4>
+                        <ul>
+                            <li>app/_layout.tsx - Root setup</li>
+                            <li>app/(tabs)/ - Tab screens</li>
+                            <li>config/api.ts - API endpoints</li>
+                            <li>utils/storage.ts - Data persistence</li>
+                            <li>types/index.ts - Type definitions</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Data Flow -->
+            <section id="dataflow">
+                <h2>🔄 Data Flow Sequences</h2>
+                
+                <h3>User Registration Flow</h3>
+                <div class="diagram-container">
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as Backend API
+    participant S as User Service
+    participant G as Goal Generator
+    participant AI as OpenAI GPT
+    participant D as MongoDB
+    
+    U->>F: Fill Registration Form
+    F->>A: POST /auth/signup
+    A->>S: Check User Exists
+    S->>D: Query Database
+    D->>S: User Not Found
+    S->>G: Generate Goal
+    G->>AI: Request Personalized Goal
+    AI->>G: Return Goal Data
+    G->>S: Save Goal
+    S->>D: Save User Data
+    D->>S: Success
+    S->>A: Return User + Goal
+    A->>F: User Created
+    F->>U: Display Welcome
+                    </div>
+                </div>
+                
+                <h3>Daily Health Analysis Flow</h3>
+                <div class="diagram-container">
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as Backend API
+    participant O as Orchestrator
+    participant AI as OpenAI GPT
+    participant D as Dashboard
+    
+    U->>F: Enter Daily Data
+    F->>A: POST /generate-personalized-summary
+    A->>O: Process User Data
+    
+    par Agent Analysis
+        O->>AI: Analyze Meals
+        O->>AI: Analyze Exercise
+        O->>AI: Analyze Lifestyle
+    end
+    
+    AI->>O: Return All Analysis
+    O->>AI: Generate Summary
+    AI->>O: Personalized Recommendations
+    O->>A: Complete Analysis
+    A->>F: Return Results
+    F->>D: Display Dashboard
+    D->>U: Show Insights
+                    </div>
+                </div>
+            </section>
+            
+            <!-- File Structure -->
+            <section id="files">
+                <h2>🗂️ Complete File Structure</h2>
+                
+                <h3>Backend Files</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File/Directory</th>
+                            <th>Responsibility</th>
+                            <th>Key Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>main.py</strong></td>
+                            <td>API Gateway</td>
+                            <td>Authentication, routing, CORS, health checks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>agents/enhanced_orchestrator.py</strong></td>
+                            <td>AI Coordination</td>
+                            <td>Agent orchestration, personalized summaries, goal alignment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>agents/food_agent.py</strong></td>
+                            <td>Food Analysis</td>
+                            <td>Meal evaluation, calorie estimation, nutrition scoring</td>
+                        </tr>
+                        <tr>
+                            <td><strong>agents/exercise_agent.py</strong></td>
+                            <td>Exercise Analysis</td>
+                            <td>Activity tracking, calorie burn calculation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>agents/lifestyle_agent.py</strong></td>
+                            <td>Wellness Analysis</td>
+                            <td>Sleep, stress, screen time evaluation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>agents/goal_generator.py</strong></td>
+                            <td>Goal Creation</td>
+                            <td>AI-powered personalized health goal generation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>services/mongodb_user_service.py</strong></td>
+                            <td>User Management</td>
+                            <td>CRUD operations, authentication, data persistence</td>
+                        </tr>
+                        <tr>
+                            <td><strong>services/food_vision_service.py</strong></td>
+                            <td>Image Recognition</td>
+                            <td>Food photo analysis with OpenAI Vision API</td>
+                        </tr>
+                        <tr>
+                            <td><strong>routes/intellectual.py</strong></td>
+                            <td>Educational Content</td>
+                            <td>YouTube API integration, content recommendations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>routes/food.py</strong></td>
+                            <td>Food Endpoints</td>
+                            <td>Image upload, nutrition analysis</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>Frontend Files</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File/Directory</th>
+                            <th>Responsibility</th>
+                            <th>Key Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>pages/index.tsx</strong></td>
+                            <td>Landing Page</td>
+                            <td>Welcome screen, navigation, authentication links</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/signup.tsx</strong></td>
+                            <td>User Registration</td>
+                            <td>Account creation form, validation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/login.tsx</strong></td>
+                            <td>Authentication</td>
+                            <td>User login, session management</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/path-selection.tsx</strong></td>
+                            <td>Path Chooser</td>
+                            <td>Health vs Study path selection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/goal-homepage.tsx</strong></td>
+                            <td>Goal Display</td>
+                            <td>AI-generated goals showcase</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/data-entry.tsx</strong></td>
+                            <td>Daily Tracking</td>
+                            <td>Meal, exercise, lifestyle input forms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/dashboard.tsx</strong></td>
+                            <td>Health Dashboard</td>
+                            <td>AI analysis results, progress visualization</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pages/intellectual.tsx</strong></td>
+                            <td>Study Path</td>
+                            <td>Educational content access, video feed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>components/Navbar.tsx</strong></td>
+                            <td>Navigation</td>
+                            <td>Header, user controls, routing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>components/SummaryCard.tsx</strong></td>
+                            <td>Summary Display</td>
+                            <td>Health score visualization, color-coded results</td>
+                        </tr>
+                        <tr>
+                            <td><strong>modules/intellectual/*</strong></td>
+                            <td>Study Module</td>
+                            <td>Content selection, video feed, player</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Tech Stack -->
+            <section id="tech">
+                <h2>⚙️ Technology Stack</h2>
+                
+                <h3>Frontend Technologies</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">Next.js 13</span>
+                    <span class="tech-badge">React 18</span>
+                    <span class="tech-badge">TypeScript</span>
+                    <span class="tech-badge">TailwindCSS</span>
+                    <span class="tech-badge">React Native</span>
+                    <span class="tech-badge">Expo</span>
+                </div>
+                
+                <h3>Backend Technologies</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">Python 3.8+</span>
+                    <span class="tech-badge">FastAPI</span>
+                    <span class="tech-badge">Uvicorn</span>
+                    <span class="tech-badge">Pydantic</span>
+                    <span class="tech-badge">LangChain</span>
+                </div>
+                
+                <h3>AI & ML</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">OpenAI GPT-4o-mini</span>
+                    <span class="tech-badge">OpenAI Vision API</span>
+                    <span class="tech-badge">LangChain Agents</span>
+                </div>
+                
+                <h3>Database & Storage</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">MongoDB Atlas</span>
+                    <span class="tech-badge">PyMongo</span>
+                    <span class="tech-badge">Motor (Async)</span>
+                    <span class="tech-badge">LocalStorage</span>
+                    <span class="tech-badge">AsyncStorage</span>
+                </div>
+                
+                <h3>External APIs</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">YouTube Data API v3</span>
+                    <span class="tech-badge">OpenAI API</span>
+                </div>
+                
+                <h3>Deployment</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">Vercel</span>
+                    <span class="tech-badge">Railway</span>
+                    <span class="tech-badge">Docker</span>
+                    <span class="tech-badge">GitHub Actions</span>
+                </div>
+                
+                <div class="info-box" style="margin-top: 40px;">
+                    <h4>🎯 Key Architectural Decisions</h4>
+                    <p><strong>1. Microservices-Inspired Agent Architecture:</strong> Each AI agent is independent and specialized</p>
+                    <p><strong>2. Dual Storage Strategy:</strong> MongoDB for persistence, LocalStorage for caching</p>
+                    <p><strong>3. Dual Path System:</strong> Health and Study paths with unified experience</p>
+                    <p><strong>4. AI-First Approach:</strong> GPT-4o-mini powers all personalization and recommendations</p>
+                    <p><strong>5. Fallback Systems:</strong> Graceful degradation ensures reliability</p>
+                    <p><strong>6. Mobile-First API:</strong> RESTful design works across all platforms</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <h3>🧠 Mind-Scroll Architecture</h3>
+            <p>AI-Powered Student Health & Learning Platform</p>
+            <p style="margin-top: 10px; opacity: 0.7;">Built with ❤️ for Student Health & Learning Innovation</p>
+            <p style="margin-top: 5px; opacity: 0.6; font-size: 0.9em;">Document Version 1.0 | Last Updated: November 2024</p>
+        </footer>
+    </div>
+    
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        ↑
+    </div>
+    
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#764ba2',
+                lineColor: '#667eea',
+                secondaryColor: '#764ba2',
+                tertiaryColor: '#f8f9fa'
+            }
+        });
+        
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+        
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
+
