@@ -2,364 +2,554 @@
 
 This document provides a comprehensive overview of the Mindscroll project structure, architecture, and key components.
 
-## 📁 Project Overview
+## 📁 Complete Project Overview
 
 ```
-mindscroll/
-├── backend/                    # FastAPI Python backend
-├── frontend/                   # Next.js React frontend
-├── DEPLOYMENT.md              # Deployment guide
-├── MOBILE_GUIDE.md            # Mobile app integration guide
-├── PROJECT_STRUCTURE.md      # This file
-├── README.md                  # Main project documentation
-└── start.sh                   # Development startup script
+Mind-Scroll/
+├── src/
+│   ├── backend/                    # FastAPI Python backend
+│   ├── frontend/                   # Next.js React web app
+│   └── mobile/                     # React Native mobile app
+├── docs/                           # Documentation
+├── data/                           # Static assets
+├── ARCHITECTURE_DIAGRAM.md         # System architecture diagrams
+├── MOBILE_APP_READY.md            # Mobile app setup guide
+├── README.md                       # Main documentation
+└── Various deployment guides
 ```
+
+---
 
 ## 🏗️ Backend Architecture
 
 ### Directory Structure
 ```
-backend/
-├── agents/                    # AI agents and orchestration
-│   ├── enhanced_orchestrator.py
-│   ├── exercise_agent.py
-│   ├── food_agent.py
-│   ├── goal_generator.py
-│   ├── lifestyle_agent.py
-│   ├── orchestrator.py
-│   └── personalization_generator.py
-├── data/                     # Local data storage
-│   └── users.json
-├── database/                 # Database configuration
-│   └── mongodb.py
-├── models/                   # Database models
-│   └── user.py
-├── routes/                   # API routes
-│   └── intellectual.py
-├── schemas/                  # Pydantic schemas
-│   ├── summary.py
-│   └── user.py
-├── services/                 # Business logic services
-│   ├── mongodb_user_service.py
+src/backend/
+├── agents/                         # AI agents and orchestration
+│   ├── enhanced_orchestrator.py   # Main AI coordinator
+│   ├── exercise_agent.py          # Exercise analysis
+│   ├── food_agent.py              # Nutrition analysis
+│   ├── goal_generator.py          # AI goal creation
+│   ├── lifestyle_agent.py         # Wellness analysis
+│   ├── orchestrator.py            # Basic orchestrator
+│   └── personalization_generator.py # Nickname/avatar AI
+├── data/                          # Local data storage
+│   └── users.json                 # User data (dev mode)
+├── database/                      # Database configuration
+│   └── mongodb.py                 # MongoDB connection
+├── models/                        # Database models
+│   └── user.py                    # User model
+├── routes/                        # API routes
+│   ├── food.py                    # Food analysis endpoints
+│   └── intellectual.py            # Educational content
+├── schemas/                       # Pydantic schemas
+│   ├── summary.py                 # Health summary
+│   └── user.py                    # User validation
+├── services/                      # Business logic
+│   ├── feedback_learning_service.py
+│   ├── food_vision_service.py    # Image recognition
+│   ├── mongodb_user_service.py   # User CRUD
 │   ├── sync_mongodb_user_service.py
-│   └── user_service.py
-├── env.example               # Environment variables template
-├── main.py                   # FastAPI application entry point
-└── requirements.txt          # Python dependencies
+│   └── user_service.py            # Local user service
+├── config.py                      # Configuration
+├── main.py                        # FastAPI app entry
+└── requirements.txt               # Python dependencies
 ```
 
-### Key Components
+### Key Backend Files
 
-#### 1. Main Application (`main.py`)
-- **FastAPI app initialization**
-- **CORS configuration**
-- **Route registration**
-- **Authentication endpoints**
-- **User management endpoints**
-- **Health summary generation**
+| File | Purpose | Key Features |
+|------|---------|--------------|
+| `main.py` | API Gateway | Authentication, routing, CORS, endpoints |
+| `agents/enhanced_orchestrator.py` | AI Coordination | Manages all agents, generates summaries |
+| `agents/food_agent.py` | Nutrition AI | Analyzes meals, calculates calories |
+| `agents/exercise_agent.py` | Exercise AI | Evaluates activities, burns |
+| `agents/lifestyle_agent.py` | Wellness AI | Sleep, stress, screen time |
+| `agents/goal_generator.py` | Goal Creation | AI-generated personalized goals |
+| `routes/food.py` | Food API | Image upload, nutrition analysis |
+| `routes/intellectual.py` | Content API | YouTube integration |
+| `services/food_vision_service.py` | Image AI | Food photo recognition |
+| `services/mongodb_user_service.py` | Database | User management |
 
-#### 2. AI Agents (`agents/`)
-- **Enhanced Orchestrator**: Coordinates all AI agents
-- **Food Agent**: Analyzes food intake and nutrition
-- **Exercise Agent**: Evaluates physical activity
-- **Lifestyle Agent**: Assesses sleep, stress, screen time
-- **Goal Generator**: Creates personalized health goals
-- **Personalization Generator**: Creates nicknames and avatars
+---
 
-#### 3. Data Models (`models/`, `schemas/`)
-- **User Model**: MongoDB user document structure
-- **User Schema**: Pydantic validation schemas
-- **Summary Schema**: Health summary data structure
-
-#### 4. Services (`services/`)
-- **User Service**: User CRUD operations (local JSON)
-- **MongoDB Services**: Database operations (MongoDB Atlas)
-- **Authentication**: Login/signup logic
-
-#### 5. Routes (`routes/`)
-- **Intellectual Routes**: YouTube API integration
-- **Content Recommendations**: Educational video fetching
-- **Fallback Content**: Demo content when API unavailable
-
-## 🎨 Frontend Architecture
+## 🎨 Frontend Web Architecture
 
 ### Directory Structure
 ```
-frontend/
-├── components/               # Reusable React components
-│   ├── AgentOutput.tsx
-│   ├── Navbar.tsx
-│   └── SummaryCard.tsx
-├── pages/                    # Next.js pages (routing)
-│   ├── _app.tsx
-│   ├── comprehensive-profile.tsx
-│   ├── dashboard.tsx
-│   ├── data-entry.tsx
-│   ├── essential-signup.tsx
-│   ├── goal-homepage.tsx
-│   ├── index.tsx
-│   ├── intellectual.tsx
-│   ├── login.tsx
-│   ├── path-selection.tsx
-│   ├── profile.tsx
-│   └── signup.tsx
-├── src/modules/              # Feature modules
-│   └── intellectual/          # Intellectual Path module
-│       ├── DurationSelector.jsx
-│       ├── fallbackData.js
-│       ├── index.jsx
-│       ├── InterestSelector.jsx
-│       ├── ReelCard.jsx
-│       ├── ReelFeed.jsx
-│       └── VerticalVideoFeed.jsx
-├── styles/                   # Global styles
-│   └── globals.css
-├── utils/                    # Utility functions
-│   └── api.ts
-├── next.config.js           # Next.js configuration
-├── package.json             # Node.js dependencies
-├── tailwind.config.js       # Tailwind CSS configuration
-└── tsconfig.json            # TypeScript configuration
+src/frontend/
+├── components/                    # Reusable components
+│   ├── AgentOutput.tsx           # Agent results display
+│   ├── Navbar.tsx                # Navigation bar
+│   └── SummaryCard.tsx           # Summary visualization
+├── pages/                         # Next.js routes
+│   ├── _app.tsx                  # App wrapper
+│   ├── index.tsx                 # Landing page
+│   ├── login.tsx                 # Login page
+│   ├── signup.tsx                # Signup page
+│   ├── essential-signup.tsx      # Detailed signup
+│   ├── path-selection.tsx        # Path chooser
+│   ├── goal-homepage.tsx         # Goals display
+│   ├── data-entry.tsx            # Daily tracking
+│   ├── dashboard.tsx             # Health dashboard
+│   ├── intellectual.tsx          # Study path
+│   ├── profile.tsx               # User profile
+│   └── comprehensive-profile.tsx # Extended profile
+├── src/modules/                   # Feature modules
+│   └── intellectual/             # Study path module
+│       ├── index.jsx             # Main entry
+│       ├── InterestSelector.jsx  # Subject picker
+│       ├── DurationSelector.jsx  # Video length
+│       ├── ReelFeed.jsx          # Video feed
+│       ├── ReelCard.jsx          # Video card
+│       ├── VerticalVideoFeed.jsx # Video player
+│       └── fallbackData.js       # Demo content
+├── styles/
+│   └── globals.css               # Global styles
+├── utils/
+│   └── api.ts                    # API integration
+├── public/                        # Static assets
+├── next.config.js                # Next.js config
+├── package.json                  # Dependencies
+├── tailwind.config.js            # Tailwind CSS
+└── tsconfig.json                 # TypeScript config
 ```
 
-### Key Components
+### Frontend Pages Flow
 
-#### 1. Pages (`pages/`)
-- **Index**: Landing page with authentication
-- **Essential Signup**: Multi-step student registration
-- **Login**: User authentication
-- **Path Selection**: Choose between Health and Study paths
-- **Goal Homepage**: Display AI-generated goals
-- **Data Entry**: Daily activity logging
-- **Dashboard**: Health summary and progress
-- **Comprehensive Profile**: Profile editing
-- **Intellectual**: Study path with educational content
+```
+Landing (index.tsx)
+    ↓
+Signup/Login → Path Selection
+                    ↓
+        ┌───────────┴────────────┐
+        ↓                        ↓
+    Health Path             Study Path
+        ↓                        ↓
+Goal Homepage          Intellectual Content
+        ↓                        ↓
+Data Entry              Video Feed
+        ↓                        
+    Dashboard                    
+```
 
-#### 2. Components (`components/`)
-- **Navbar**: Navigation with user controls
-- **SummaryCard**: Health summary display
-- **AgentOutput**: AI agent results display
+---
 
-#### 3. Intellectual Module (`src/modules/intellectual/`)
-- **InterestSelector**: Subject selection interface
-- **DurationSelector**: Video length preference
-- **ReelFeed**: Educational content feed
-- **ReelCard**: Individual video display
-- **VerticalVideoFeed**: TikTok-style video player
-- **FallbackData**: Demo content for offline mode
+## 📱 Mobile App Architecture
 
-#### 4. Utilities (`utils/`)
-- **API Service**: Backend communication
-- **Type Definitions**: TypeScript interfaces
+### Directory Structure
+```
+src/mobile/
+├── app/                           # Expo Router screens
+│   ├── _layout.tsx               # Root navigation
+│   ├── index.tsx                 # Welcome screen
+│   ├── login.tsx                 # Login screen
+│   ├── signup.tsx                # Signup screen
+│   └── (tabs)/                   # Tab navigation
+│       ├── _layout.tsx           # Tab config
+│       ├── dashboard.tsx         # Health dashboard
+│       ├── track.tsx             # Daily tracking
+│       ├── analysis.tsx          # AI insights
+│       └── profile.tsx           # User profile
+├── config/
+│   └── api.ts                    # API configuration
+├── utils/
+│   └── storage.ts                # Secure storage
+├── constants/
+│   └── colors.ts                 # Design system
+├── types/
+│   └── index.ts                  # TypeScript types
+├── assets/                        # Images, fonts
+├── app.json                      # Expo configuration
+├── package.json                  # Dependencies
+├── tsconfig.json                 # TypeScript config
+├── MOBILE_ARCHITECTURE.md        # Detailed docs
+└── QUICK_SETUP.md                # Setup guide
+```
 
-## 🔄 Data Flow
+### Mobile App Screens
+
+| Screen | File | Purpose |
+|--------|------|---------|
+| Welcome | `index.tsx` | Landing screen, auto-login check |
+| Login | `login.tsx` | User authentication |
+| Signup | `signup.tsx` | Account creation |
+| Dashboard | `(tabs)/dashboard.tsx` | Health score, stats, goals |
+| Track | `(tabs)/track.tsx` | Log meals, exercise, lifestyle |
+| Analysis | `(tabs)/analysis.tsx` | AI-generated insights |
+| Profile | `(tabs)/profile.tsx` | User info, settings, logout |
+
+### Mobile Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `config/api.ts` | Backend URL: `https://mind-scroll-eta.vercel.app` |
+| `utils/storage.ts` | Expo SecureStore wrapper |
+| `constants/colors.ts` | Design system (colors, spacing, typography) |
+| `app.json` | Expo SDK 54 configuration |
+
+---
+
+## 📚 Documentation Files
+
+### Root Documentation
+```
+Mind-Scroll/
+├── README.md                      # Main project documentation
+├── ARCHITECTURE_DIAGRAM.md        # System architecture with diagrams
+├── MOBILE_APP_READY.md           # Mobile setup completion guide
+├── architecture-diagram.html      # Interactive HTML diagram
+├── DEPLOYMENT_CHECKLIST.md        # Deployment steps
+├── MONGODB_ATLAS_SETUP.md        # Database setup
+├── MONGODB_SECURITY_SETUP.md     # Database security
+├── QUICK_START_ATLAS.md          # Quick MongoDB guide
+├── QUICK_DEPLOY.md               # Fast deployment
+├── START_SERVER.md               # Local server guide
+└── LICENSE.txt                    # License information
+```
+
+### Docs Directory
+```
+docs/
+├── DEPLOYMENT.md                  # Production deployment
+├── MOBILE_GUIDE.md               # Mobile app development
+├── PROJECT_STRUCTURE.md          # This file
+├── RAILWAY_DEPLOYMENT.md         # Railway hosting
+└── start.sh                      # Startup script
+```
+
+### Mobile-Specific Docs
+```
+src/mobile/
+├── MOBILE_ARCHITECTURE.md         # Technical architecture
+├── QUICK_SETUP.md                # 5-minute setup guide
+└── README.md                     # Mobile app overview
+```
+
+---
+
+## 🌐 Deployment Structure
+
+### Production Setup
+
+```
+┌─────────────────────────────────────────┐
+│   Frontend (Vercel)                     │
+│   https://mind-scroll-eta.vercel.app/   │
+└─────────────────┬───────────────────────┘
+                  │
+                  │ API Calls
+                  │
+┌─────────────────▼───────────────────────┐
+│   Backend (Vercel/Railway)              │
+│   FastAPI + AI Agents                   │
+└─────────────────┬───────────────────────┘
+                  │
+                  │ Database Queries
+                  │
+┌─────────────────▼───────────────────────┐
+│   MongoDB Atlas (Cloud Database)        │
+│   User data, goals, progress            │
+└─────────────────────────────────────────┘
+
+                  │
+┌─────────────────▼───────────────────────┐
+│   Mobile App (Expo Go / Built)          │
+│   React Native + Expo Router            │
+└─────────────────────────────────────────┘
+```
+
+### Environment Files
+
+| File | Location | Purpose |
+|------|----------|---------|
+| `.env` | `src/backend/` | Backend secrets (OpenAI, MongoDB, YouTube API) |
+| `railway.env.example` | Root | Railway deployment template |
+| `config/api.ts` | `src/mobile/` | Mobile API endpoint |
+
+---
+
+## 🔄 Data Flow Architecture
 
 ### User Registration Flow
-1. **Essential Signup** → Collect student information
-2. **AI Goal Generation** → Create personalized health goals
-3. **AI Personalization** → Generate nickname and avatar
-4. **Path Selection** → Choose Health or Study path
-5. **Goal Homepage** → Display personalized goals
 
-### Daily Usage Flow
-1. **Login** → Authenticate user
-2. **Path Selection** → Choose current focus
-3. **Data Entry** → Log daily activities
-4. **AI Analysis** → Generate insights and recommendations
-5. **Dashboard** → View progress and summaries
-
-### Intellectual Path Flow
-1. **Interest Selection** → Choose academic subjects
-2. **Duration Selection** → Set video length preference
-3. **Content Fetching** → Get YouTube videos or fallback content
-4. **Video Playback** → Watch educational content
-5. **Progress Tracking** → Save liked/saved content
-
-## 🗄️ Data Storage
-
-### Local Storage (Development)
-- **User Data**: `localStorage.getItem('user')`
-- **Food Data**: `localStorage.getItem('userFoodData')`
-- **Exercise Data**: `localStorage.getItem('userExerciseData')`
-- **Lifestyle Data**: `localStorage.getItem('userLifestyleData')`
-
-### Database (Production)
-- **MongoDB Atlas**: Cloud NoSQL database
-- **User Collection**: User profiles and authentication
-- **Progress Collection**: Daily activity logs
-- **Goals Collection**: AI-generated health goals
-
-## 🔌 API Endpoints
-
-### Authentication
-- `POST /auth/signup` - User registration
-- `POST /auth/login` - User authentication
-- `GET /user/profile` - Get user profile
-- `PUT /user/profile` - Update user profile
-
-### Health Analysis
-- `POST /generate-summary-from-user-data` - Generate health summary
-- `GET /user/{user_id}/progress` - Get user progress
-
-### Intellectual Content
-- `GET /api/intellectual/recommendations` - Get educational videos
-- `GET /api/intellectual/recommendations/personalized` - Personalized content
-- `GET /api/intellectual/categories` - Available categories
-
-## 🎯 Key Features
-
-### Student-Focused Design
-- **Academic Language**: All text tailored for students
-- **Study-Life Balance**: Health tracking for student lifestyle
-- **Educational Content**: YouTube integration for learning
-- **Student Goals**: AI-generated goals for academic success
-
-### AI-Powered Insights
-- **Goal Generation**: Personalized health goals based on profile
-- **Daily Analysis**: AI evaluation of food, exercise, lifestyle
-- **Recommendations**: Actionable advice for improvement
-- **Progress Tracking**: Long-term goal monitoring
-
-### Dual Path System
-- **Health Path**: Physical wellness and lifestyle tracking
-- **Study Path**: Educational content and intellectual growth
-- **Unified Experience**: Seamless switching between paths
-
-## 🔧 Configuration
-
-### Environment Variables
-```env
-# Backend (.env)
-OPENAI_API_KEY=your_openai_api_key_here
-YOUTUBE_API_KEY=your_youtube_api_key_here
-MONGODB_URL=your_mongodb_connection_string
-
-# Frontend (if needed)
-NEXT_PUBLIC_API_URL=https://your-backend-url.com
+```
+Web/Mobile App
+    ↓
+POST /auth/signup
+    ↓
+Backend (main.py)
+    ↓
+User Service → Create User
+    ↓
+Goal Generator → AI creates goal
+    ↓
+Personalization Generator → AI creates nickname/avatar
+    ↓
+MongoDB Atlas → Save user data
+    ↓
+Response → User + Goal + Personalization
+    ↓
+SecureStore/LocalStorage → Save locally
 ```
 
-### Dependencies
+### Daily Health Tracking Flow
+
+```
+User logs data (Track screen)
+    ↓
+POST /generate-personalized-summary
+    ↓
+Enhanced Orchestrator
+    ↓
+┌────────────┬──────────────┬────────────┐
+│ Food Agent │Exercise Agent│Lifestyle   │
+│            │              │Agent       │
+└────────────┴──────────────┴────────────┘
+    ↓            ↓              ↓
+OpenAI GPT-4o-mini Analysis
+    ↓
+Orchestrator Summary
+    ↓
+Response with insights
+    ↓
+Save to SecureStore/LocalStorage
+    ↓
+Display in Dashboard/Analysis
+```
+
+---
+
+## 🗃️ Database Schema
+
+### MongoDB Collections
+
+#### Users Collection
 ```json
-// Frontend (package.json)
 {
-  "dependencies": {
-    "next": "^13.0.0",
-    "react": "^18.0.0",
-    "typescript": "^4.0.0",
-    "tailwindcss": "^3.0.0"
-  }
+  "_id": "user-uuid",
+  "credentials": {
+    "email": "user@example.com",
+    "password": "hashed_password"
+  },
+  "profile": {
+    "name": "John Doe",
+    "age": 22,
+    "gender": "male",
+    "weight": 70,
+    "height": 175,
+    "activity_level": "moderately_active",
+    "nickname": "The Academic Achiever",
+    "avatar": "🎓"
+  },
+  "goal": {
+    "goal_type": "maintain",
+    "target_weight": 70,
+    "target_calories_per_day": 2200,
+    "goal_description": "AI-generated description"
+  },
+  "daily_entries": [
+    {
+      "date": "2024-11-08",
+      "meals": ["Breakfast: Oatmeal"],
+      "exercises": ["30 min jogging"],
+      "lifestyle": {
+        "sleep_hours": 7,
+        "water_intake": 6,
+        "stress_level": 3,
+        "screen_time": 4
+      }
+    }
+  ]
 }
 ```
 
-```txt
-# Backend (requirements.txt)
-fastapi==0.104.1
-uvicorn==0.24.0
-langchain==0.0.350
-openai==1.3.0
-pymongo==4.15.3
-motor==3.3.2
-httpx==0.25.2
-```
+---
+
+## 🎯 API Endpoints
+
+### Authentication
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/auth/signup` | POST | Create new account |
+| `/auth/login` | POST | User authentication |
+
+### Health Analysis
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/generate-summary-from-user-data` | POST | Get AI analysis (no user) |
+| `/generate-personalized-summary` | POST | Get personalized AI analysis |
+| `/user/{user_id}/progress` | GET | Get user progress history |
+
+### User Management
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/user/{user_id}` | GET | Get user profile |
+| `/user/profile` | PUT | Update user profile |
+
+### Educational Content
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/intellectual/recommendations` | GET | Get video recommendations |
+| `/api/intellectual/recommendations/personalized` | GET | Personalized videos |
+| `/api/intellectual/categories` | GET | Available categories |
+
+### Food Analysis
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/food/analyze` | POST | Analyze food image |
+
+---
+
+## 🧩 Component Architecture
+
+### Shared Components (Web & Mobile)
+
+| Component | Web | Mobile | Purpose |
+|-----------|-----|--------|---------|
+| Navigation | `Navbar.tsx` | Tab navigation | App navigation |
+| Summary Display | `SummaryCard.tsx` | Score cards | Health metrics |
+| Agent Output | `AgentOutput.tsx` | Analysis cards | AI results |
+| Login Form | `login.tsx` | `login.tsx` | Authentication |
+| Signup Form | `signup.tsx` | `signup.tsx` | Registration |
+
+---
+
+## 🔐 Security Architecture
+
+### Authentication Layer
+- Email/Password authentication
+- Secure password hashing
+- Session management (JWT potential)
+
+### Data Protection
+- **Backend**: Environment variables for API keys
+- **Web**: LocalStorage for session data
+- **Mobile**: Expo SecureStore for sensitive data
+- **Database**: MongoDB Atlas with authentication
+
+### API Security
+- CORS configuration
+- Input validation (Pydantic)
+- Error handling without data leakage
+
+---
+
+## 📊 Technology Stack Summary
+
+### Backend
+- **Framework**: FastAPI
+- **Language**: Python 3.8+
+- **AI**: LangChain + OpenAI GPT-4o-mini
+- **Database**: MongoDB Atlas (PyMongo)
+- **Server**: Uvicorn
+
+### Frontend Web
+- **Framework**: Next.js 13
+- **Language**: TypeScript
+- **Styling**: TailwindCSS
+- **State**: React Hooks
+- **Deployment**: Vercel
+
+### Mobile
+- **Framework**: React Native
+- **Platform**: Expo SDK 54
+- **Navigation**: Expo Router
+- **Language**: TypeScript
+- **Storage**: Expo SecureStore
+- **UI**: React Native StyleSheet
+
+### External APIs
+- **OpenAI API**: GPT-4o-mini for AI analysis
+- **YouTube Data API v3**: Educational content
+- **MongoDB Atlas**: Cloud database
+
+---
 
 ## 🚀 Development Workflow
 
 ### Local Development
-1. **Backend**: `cd backend && uvicorn main:app --reload`
-2. **Frontend**: `cd frontend && npm run dev`
-3. **Database**: MongoDB Atlas or local MongoDB
 
-### Code Organization
-- **Modular Structure**: Separate concerns into modules
-- **Reusable Components**: Shared UI components
-- **Type Safety**: TypeScript for frontend, Pydantic for backend
-- **Error Handling**: Comprehensive error management
-- **Testing**: Unit and integration tests
+**Backend:**
+```bash
+cd src/backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-## 📱 Mobile Considerations
+**Frontend:**
+```bash
+cd src/frontend
+npm install
+npm run dev
+```
 
-### API Design
-- **RESTful Endpoints**: Standard HTTP methods
-- **JSON Responses**: Consistent data format
-- **Error Handling**: Standardized error responses
-- **CORS Configuration**: Cross-origin support
+**Mobile:**
+```bash
+cd src/mobile
+npm install --legacy-peer-deps
+npm start
+```
 
-### Data Structure
-- **User Profiles**: Comprehensive student information
-- **Activity Logs**: Structured daily data
-- **AI Insights**: Machine-readable analysis
-- **Content Metadata**: Educational video information
+### Production Deployment
 
-## 🔐 Security
-
-### Authentication
-- **JWT Tokens**: Secure user sessions
-- **Password Hashing**: Secure password storage
-- **Input Validation**: Pydantic schema validation
-- **CORS Protection**: Cross-origin security
-
-### Data Protection
-- **Environment Variables**: Sensitive data protection
-- **API Key Management**: Secure key storage
-- **Database Security**: MongoDB Atlas security
-- **HTTPS Only**: Encrypted communication
-
-## 📊 Monitoring & Analytics
-
-### Backend Monitoring
-- **API Response Times**: Performance tracking
-- **Error Rates**: Failure monitoring
-- **Database Performance**: Query optimization
-- **AI Agent Performance**: Model effectiveness
-
-### Frontend Analytics
-- **User Engagement**: Page views and interactions
-- **Feature Usage**: Path selection and data entry
-- **Performance Metrics**: Load times and responsiveness
-- **Error Tracking**: Client-side error monitoring
-
-## 🧪 Testing Strategy
-
-### Backend Testing
-- **Unit Tests**: Individual component testing
-- **Integration Tests**: API endpoint testing
-- **AI Agent Testing**: Model output validation
-- **Database Testing**: Data persistence testing
-
-### Frontend Testing
-- **Component Tests**: React component testing
-- **Integration Tests**: Page flow testing
-- **API Integration**: Backend communication testing
-- **User Experience**: End-to-end testing
-
-## 📈 Performance Optimization
-
-### Backend Optimization
-- **Database Indexing**: Query performance
-- **Caching**: Response caching
-- **Async Operations**: Non-blocking operations
-- **API Rate Limiting**: Resource protection
-
-### Frontend Optimization
-- **Code Splitting**: Lazy loading
-- **Image Optimization**: Compressed assets
-- **Bundle Size**: Minimal JavaScript
-- **Caching**: Static asset caching
-
-## 🔄 Maintenance
-
-### Regular Updates
-- **Dependency Updates**: Security patches
-- **Feature Enhancements**: New functionality
-- **Bug Fixes**: Issue resolution
-- **Performance Improvements**: Optimization
-
-### Monitoring
-- **Health Checks**: System status monitoring
-- **Error Tracking**: Issue identification
-- **User Feedback**: Feature requests
-- **Analytics**: Usage patterns
+1. **Backend**: Deploy to Vercel/Railway
+2. **Frontend**: Deploy to Vercel
+3. **Mobile**: Build with Expo and submit to stores
+4. **Database**: MongoDB Atlas (already cloud-hosted)
 
 ---
 
-**Note:** This project structure is designed for scalability and maintainability. The modular architecture allows for easy feature additions and team collaboration. Regular code reviews and documentation updates are essential for long-term success.
+## 📈 Project Statistics
+
+- **Total Files**: 200+
+- **Backend Endpoints**: 12+
+- **Frontend Pages**: 12
+- **Mobile Screens**: 7
+- **AI Agents**: 6
+- **Documentation Files**: 15+
+- **Supported Platforms**: Web, iOS, Android
+- **Lines of Code**: ~15,000+
+
+---
+
+## 🎓 Learning Resources
+
+- **Architecture Overview**: `ARCHITECTURE_DIAGRAM.md`
+- **Mobile Setup**: `src/mobile/MOBILE_ARCHITECTURE.md`
+- **API Integration**: `utils/api.ts` (web), `config/api.ts` (mobile)
+- **Backend Logic**: `agents/enhanced_orchestrator.py`
+- **Deployment**: `docs/DEPLOYMENT.md`
+
+---
+
+## 🔮 Future Enhancements
+
+### Planned Features
+- [ ] Real-time WebSocket updates
+- [ ] Push notifications (mobile)
+- [ ] Advanced analytics dashboard
+- [ ] Social features (community)
+- [ ] Gamification system
+- [ ] Dark mode support
+- [ ] Offline mode
+- [ ] Apple Health / Google Fit integration
+
+### Technical Improvements
+- [ ] Redis caching layer
+- [ ] GraphQL API option
+- [ ] Microservices architecture
+- [ ] CI/CD pipeline
+- [ ] Automated testing suite
+- [ ] Performance monitoring
+- [ ] Error tracking (Sentry)
+
+---
+
+**Document Version**: 2.0  
+**Last Updated**: November 2024  
+**Maintainers**: Mind-Scroll Development Team
+
+---
+
+**Note:** This is a living document. As the project evolves, this structure documentation should be updated to reflect new changes, features, and architectural decisions.
