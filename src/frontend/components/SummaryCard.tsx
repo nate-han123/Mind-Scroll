@@ -49,8 +49,8 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
 
   return (
     <div className={`card card-hover ${colorClasses[actualColor]} ${className} animate-fade-in`}>
-      <div className="flex items-start justify-between mb-4">
-        <h3 className={`text-lg font-semibold ${textColorClasses[actualColor]}`}>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
+        <h3 className={`text-base sm:text-lg font-semibold ${textColorClasses[actualColor]}`}>
           {title}
         </h3>
         {score !== undefined && (
@@ -65,7 +65,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
       </div>
       
       <div className="mb-3">
-        <div className={`text-3xl font-bold ${textColorClasses[actualColor]} mb-1`}>
+        <div className={`text-2xl sm:text-3xl font-bold ${textColorClasses[actualColor]} mb-1`}>
           {value}
         </div>
         {subtitle && (

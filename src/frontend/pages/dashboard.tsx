@@ -98,6 +98,14 @@ const Dashboard: React.FC = () => {
     loadSummary();
   }, [router]);
 
+  // Defensive renderer to avoid rendering unexpected objects in recommendations
+  const renderRecommendation = (rec: any) => {
+    if (React.isValidElement(rec)) return rec;
+    if (typeof rec === 'string') return rec;
+    if (rec && typeof rec === 'object') return rec.text || JSON.stringify(rec);
+    return String(rec);
+  };
+
   // Refresh when user data changes (e.g., after profile update)
   useEffect(() => {
     const handleStorageChange = () => {
@@ -257,7 +265,7 @@ const Dashboard: React.FC = () => {
                   <div className="flex-shrink-0 w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3 mt-0.5">
                     {index + 1}
                   </div>
-                  <p className="text-gray-700 leading-relaxed">{recommendation}</p>
+                  <p className="text-gray-700 leading-relaxed">{renderRecommendation(recommendation)}</p>
                 </div>
               ))}
             </div>
