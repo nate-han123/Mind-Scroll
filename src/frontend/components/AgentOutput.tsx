@@ -96,12 +96,12 @@ const AgentOutput: React.FC<AgentOutputProps> = ({ agent, data }) => {
 
   return (
     <div className={`card ${config.bgColor} ${config.borderColor} border animate-slide-up`}>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
         <div className="flex items-center">
           <span className="text-2xl mr-3">{config.icon}</span>
-          <h3 className={`text-lg font-semibold ${config.textColor}`}>{config.title}</h3>
+          <h3 className={`text-base sm:text-lg font-semibold ${config.textColor}`}>{config.title}</h3>
         </div>
-        <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+        <div className={`mt-2 sm:mt-0 px-2 py-1 rounded-full text-xs font-medium ${
           config.performanceColor === 'green' ? 'bg-green-100 text-green-800' :
           config.performanceColor === 'yellow' ? 'bg-yellow-100 text-yellow-800' :
           'bg-red-100 text-red-800'
@@ -110,15 +110,15 @@ const AgentOutput: React.FC<AgentOutputProps> = ({ agent, data }) => {
            config.performanceColor === 'yellow' ? 'Fair' : 'Needs Attention'}
         </div>
       </div>
-      
+
       <div className="space-y-3">
         {foodData && (
           <>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
               <span className="text-sm text-gray-600">Calories</span>
               <span className={`font-semibold ${config.textColor}`}>{foodData.calories}</span>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
               <span className="text-sm text-gray-600">Nutrition Score</span>
               <span className={`font-semibold ${config.textColor}`}>{foodData.nutrition_score}/10</span>
             </div>
@@ -130,7 +130,7 @@ const AgentOutput: React.FC<AgentOutputProps> = ({ agent, data }) => {
         
         {exerciseData && (
           <>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
               <span className="text-sm text-gray-600">Calories Burned</span>
               <span className={`font-semibold ${config.textColor}`}>{exerciseData.calories_burned}</span>
             </div>
@@ -142,7 +142,7 @@ const AgentOutput: React.FC<AgentOutputProps> = ({ agent, data }) => {
         
         {lifestyleData && (
           <>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
               <span className="text-sm text-gray-600">Wellness Score</span>
               <span className={`font-semibold ${config.textColor}`}>{lifestyleData.wellness_score}/10</span>
             </div>
